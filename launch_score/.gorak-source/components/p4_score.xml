@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<OPENROAD xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><COMPONENT name="p4_score" xsi:type="proc4glsource"><script><![CDATA[PROCEDURE p4_score(capsules = integer) =
+{
+    RETURN capsules * 10;
+}]]></script><datatype>integer</datatype></COMPONENT></OPENROAD>

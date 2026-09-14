@@ -1,0 +1,22 @@
+[framesource]
+datatype = "integer"
+templatename = "standard"
+hasstatusbar = "1"
+windowheight = "3396"
+windowwidth = "6167"
+windowtitle = "Launch Score"
+gridx = "250"
+gridy = "250"
+
+===
+
+initialize()=
+{
+    capsule_count = 1;
+    score = 0;
+}
+
+on click calculate_score =
+{
+    score = CALLPROC p4_score(capsules = capsule_count);
+}

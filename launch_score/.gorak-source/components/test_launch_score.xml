@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<OPENROAD xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><COMPONENT name="test_launch_score" xsi:type="classsource"><superclass>testcase</superclass><script><![CDATA[METHOD test_score() =
+DECLARE
+    actual = integer;
+ENDDECLARE
+{
+    actual = CALLPROC p4_score(capsules = 0);
+    G_Assert.AssertEquals(expectedInteger = 0, actualInteger = actual);
+    actual = CALLPROC p4_score(capsules = 1);
+    G_Assert.AssertEquals(expectedInteger = 10, actualInteger = actual);
+    actual = CALLPROC p4_score(capsules = 5);
+    G_Assert.AssertEquals(expectedInteger = 50, actualInteger = actual);
+}]]></script><methods><row><displayname>test_score</displayname></row><row_class>methodobject</row_class></methods></COMPONENT></OPENROAD>

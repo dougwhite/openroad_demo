@@ -1,0 +1,7 @@
+{
+    "starting_component": "launch_panel",
+    "description": "Launch Score: a disposable Gorak demonstration",
+    "included_applications": [
+        "unittestframework"
+    ]
+}

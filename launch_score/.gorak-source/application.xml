@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<OPENROAD xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><APPLICATION name="launch_score"><versshortremarks><![CDATA[Launch Score: a disposable Gorak demonstration]]></versshortremarks><included_apps><row><appname>core</appname><version>-1</version><imgfilename>core.plb</imgfilename></row><row><sequence>1</sequence><appname>unittestframework</appname><version>-1</version></row><row_class>inclapp</row_class></included_apps><procstart>launch_panel</procstart></APPLICATION></OPENROAD>
