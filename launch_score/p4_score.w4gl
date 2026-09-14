@@ -5,5 +5,8 @@ datatype = "integer"
 
 PROCEDURE p4_score(capsules = integer) =
 {
+    IF capsules >= 5 THEN
+        RETURN capsules * 10 + 20;
+    ENDIF;
     RETURN capsules * 10;
 }
