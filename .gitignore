@@ -1,3 +1,5 @@
 .env
 .openroad/
 __pycache__/
+.vscode/
+.gorak-source/

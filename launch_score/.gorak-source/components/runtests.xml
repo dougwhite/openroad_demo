@@ -1,5 +1,0 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<OPENROAD xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><COMPONENT name="runtests" xsi:type="proc4glsource"><script><![CDATA[PROCEDURE runtests() =
-{
-    CALLPROC executeTests(test = test_launch_score.Create());
-}]]></script></COMPONENT></OPENROAD>
