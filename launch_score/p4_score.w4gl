@@ -5,5 +5,5 @@ datatype = "integer"
 
 PROCEDURE p4_score(capsules = integer) =
 {
-    RETURN capsules * 10;
+    RETURN capsules * 12;
 }

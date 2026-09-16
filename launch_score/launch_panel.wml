@@ -54,22 +54,19 @@
       fieldstyle="0"
       bgpattern="2"
       charsperline="17"
-      stringvalue="10 points per capsule"
+      stringvalue="12 points per capsule"
     />
     <freetrim
       xleft="115"
       ytop="854"
-      width="635"
-      height="208"
+      width="490"
       designbias="2"
       fieldstyle="0"
       bgpattern="2"
-      charsperline="8"
       stringvalue="Capsules"
     />
     <entryfield
       name="capsule_count"
-      gorak_style="1"
       datatype="integer"
       defaultvalue="3"
       defaultstring="5"
@@ -78,6 +75,7 @@
       width="1729"
       designbias="3"
       charsperline="27"
+      gorak_style="1"
     />
     <buttonfield
       name="calculate_score"
@@ -91,8 +89,7 @@
     <freetrim
       xleft="146"
       ytop="2083"
-      width="417"
-      height="208"
+      width="333"
       designbias="2"
       fieldstyle="0"
       bgpattern="2"
@@ -101,7 +98,6 @@
     />
     <entryfield
       name="score"
-      gorak_style="1"
       datatype="integer"
       defaultvalue="3"
       defaultstring="50"
@@ -113,6 +109,7 @@
       fieldstyle="0"
       typesize="14"
       charsperline="16"
+      gorak_style="1"
     />
     <freetrim
       xleft="115"
