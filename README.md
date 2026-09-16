@@ -34,7 +34,9 @@ gorak run launch_score --component launch_panel
 ```
 
 Enter 1 or 5 capsules and click **Calculate score**: expect 10 or 50 points.
-Tests use the [OpenROAD UnitTestFramework](https://github.com/ActianCorp/OpenROAD_UnitTestFramework).
+The [OpenROAD UnitTestFramework](https://github.com/ActianCorp/OpenROAD_UnitTestFramework)
+is bundled as portable Gorak source. The initial `gorak sync --push` imports it
+before `launch_score`.
 
 ## Follow the video
 
