@@ -12,8 +12,12 @@ per capsule, make a change in Workbench, then ask Codex to add a fleet bonus.
 Install Gorak using its [getting started guide](https://github.com/dougwhite/gorak/blob/master/docs/getting-started.md)
 and create a fresh, blank OpenROAD source database for the demo.
 
+[Fork this repository](https://github.com/dougwhite/openroad_demo/fork) into your
+own GitHub account, then clone your fork (replace `YOUR-USERNAME` below). This
+lets Codex push branches and open a pull request in your fork.
+
 ```bat
-git clone https://github.com/dougwhite/openroad_demo.git
+git clone https://github.com/YOUR-USERNAME/openroad_demo.git
 cd openroad_demo
 copy .env.example .env
 ```
@@ -61,6 +65,7 @@ Commit the changes:
 ```bat
 git add launch_score/p4_score.w4gl launch_score/test_launch_score.w4gl launch_score/launch_panel.wml
 git commit -m "Set launch score to twelve points per capsule"
+git push origin main
 ```
 
 Five capsules now score 60 points.
@@ -75,7 +80,7 @@ Open this repository in Codex and give it this prompt:
 > Change the Calculate score button to Calculate launch score and widen it to fit.
 > Follow AGENTS.md: create a feature branch, make the changes, push them through
 > Gorak and run the tests. Inspect the diff, commit, push the branch and create a
-> pull request for review. Do not merge it.
+> pull request against main in my fork for review. Do not merge it.
 
 Run the frame again: **5 capsules → 80 points**.
 
