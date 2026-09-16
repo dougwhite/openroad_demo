@@ -1,0 +1,16 @@
+[proc4glsource]
+
+===
+
+/**
+ * The runtests procedure is calling the executeTests procedure for each testcase class to be tested.
+ * This procedure is provided here for demo purpose only (using the SampleTest class).
+ *
+ * @author	Bodo Bergmann
+ *
+ *
+ */
+procedure runtests() =
+{
+    CALLPROC executeTests(test = SampleTest.Create());
+}

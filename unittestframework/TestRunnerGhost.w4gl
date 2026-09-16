@@ -1,0 +1,45 @@
+[ghostsource]
+
+===
+
+/**
+ * The TestRunnerGhost frame runs the TestSuite G_Helper.AppTestSuite.
+ * It also writes out the results/statictics of the run to the configured output file.
+ * See environment variables: OR_UNITTEST_STATSFILE, OR_UNITTEST_STATSFILE_XML and OR_UNITTEST_GEN_XML_STATS
+ *
+ * @author	Bodo Bergmann
+ *
+ */
+INITIALIZE() =
+{
+	// The UserEvent ensures that the caller can populate the TestSuite after the OPENFRAME statement.
+	// The UserEvent block will be executed after the current event block in the calling thread has been finished,
+	// unless there is a blocking statement in the calling thread (which should be prevented).
+	CurFrame.SendUserEvent(eventname = 'RunTests');
+}
+
+ON USEREVENT 'RunTests' =
+DECLARE
+	tsresult = TestSuiteResult;
+	resultstr = StringObject DEFAULT NULL;
+	resultxml = XmlElement DEFAULT NULL;
+ENDDECLARE
+{
+	G_Helper.AppTestSuite.run(result = tsresult);
+	// Output test stats
+	IF G_Helper.TestStatsXmlDoc IS NULL THEN
+		resultstr = tsresult.AsString();
+ 		CurExec.Trace(text='======================================================================');
+		CurExec.Trace(string=resultstr);
+		CurExec.Trace(text='======================================================================');
+		resultstr.AppendToFile(filename=G_Helper.TestStatsFile);		
+	ELSE // XML output
+		resultxml = tsresult.AsXml();
+		G_Helper.TestStatsXmlDoc.RootElement.AddChild(child = resultxml);
+		G_Helper.TestStatsXmlDoc.WriteToFile(filename = G_Helper.TestStatsFileXml, indent=TRUE, standalone=TRUE);
+ 	ENDIF;
+
+	// After running all tests make sure the frame and thus the application terminates.
+	G_Helper.CleanupTestRunner();
+	RETURN;
+}

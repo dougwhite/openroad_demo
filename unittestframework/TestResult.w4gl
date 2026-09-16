@@ -1,0 +1,166 @@
+[classsource]
+superclass = "userobject"
+
+[attributes]
+TestsRun = "INTEGER NOT NULL"
+errors = "ARRAY OF TESTFAILURE"
+failures = "ARRAY OF TESTFAILURE"
+skipped = "ARRAY OF TESTFAILURE"
+testmethodresults = "ARRAY OF TESTMETHODRESULT"
+testtimestamp = "DATE NOT NULL"
+exec_time = "INTEGER8 NOT NULL"
+testclassname = "VARCHAR(32) NOT NULL"
+
+[methods]
+startTest = "METHOD"
+addError = "METHOD"
+addFailure = "METHOD"
+addSkipped = "METHOD"
+startTestMethod = "METHOD"
+endTestMethod = "METHOD"
+endTest = "METHOD"
+
+===
+
+/**
+ * The TestResult class represents the results of running a TestCase.
+ *
+ * @author	Bodo Bergmann
+ *
+ */
+#include i_TestStatus
+INITIALIZE=
+DECLARE
+	tmr = TestMethodResult DEFAULT NULL;
+	curtest = Test DEFAULT NULL;
+ENDDECLARE
+
+/**
+ * The startTest() method collects information before starting a test case.
+ *
+ * @param thetest	The Testcase being started.
+ *
+ */
+METHOD startTest(thetest = Testcase)=
+{
+	CurMethod.Trace(text = HC_NEWLINE + 'Running tests from ' + thetest.ClassName + ' ...');
+	CurObject.testclassname = thetest.classname;
+	CurObject.testTimestamp = DATE('NOW');
+	CurObject.exec_time = GetTickCount64();
+}
+
+/**
+ * The endTest() method collects information after ending a test case.
+ *
+ */
+METHOD endTest()=
+{
+	CurObject.exec_time = GetTickCount64() - CurObject.exec_time;
+}
+
+/**
+ * The StartTestMethod() method collects information before invoking a test method.
+ *
+ * @param thetest	The Testcase being started.
+ * @param testmethod	The name of the test method being invoked
+ *
+ */
+METHOD StartTestMethod(thetest = Testcase, testmethod = varchar(32) not null)=
+{
+	CurMethod.Trace(text = 'Running method ' + testmethod);
+	curtest = thetest;
+	CurObject.TestsRun = CurObject.TestsRun+1;
+	tmr = TestMethodResult.Create();
+	tmr.testclassname = thetest.classname;
+	tmr.testmethodname = testmethod;
+	CurObject.testmethodresults[CurObject.testmethodresults.LastRow+1] = tmr;
+	tmr.exec_time = GetTickCount64();
+}
+
+/**
+ * The EndTestMethod() method collects information after a test method has finished.
+ *
+ * @param status	The method execution status.
+ *
+ */
+METHOD EndTestMethod(status = INTEGER NOT NULL)=
+{
+	tmr.exec_time = GetTickCount64() - tmr.exec_time;
+	tmr.status = status;
+	tmr.err = G_error;
+	CASE status OF
+		$OK, DEFAULT: {
+			CurMethod.Trace(text = HC_TAB + '(OK)');
+		}
+		$SKIPPED: {
+			CurMethod.Trace(text = HC_TAB + '(SKIPPED)');
+			CurObject.AddSkipped(thetest=curtest, testmethod=tmr.testmethodname);
+		}
+		$FAILED: {
+			CurMethod.Trace(text = HC_TAB + '(FAILED)');
+			CurObject.AddFailure(thetest=curtest, testmethod=tmr.testmethodname);
+		}
+		$ERROR: {
+			CurObject.AddError(thetest=curtest, testmethod=tmr.testmethodname);
+			CurMethod.Trace(text = HC_TAB + '(ERROR)');
+		}
+	ENDCASE;
+}
+
+/**
+ * The AddFailure() method adds a row to the Failures array.
+ *
+ * @param thetest	The Testcase involved.
+ * @param testmethod	The name of the test method involved
+ *
+ */
+METHOD AddFailure(thetest = Testcase, testmethod = varchar(32) not null)=
+DECLARE
+    i=INTEGER NOT NULL;
+ENDDECLARE
+{
+    i = CurObject.Failures.LastRow+1;
+    CurObject.Failures[i].test=thetest;
+    CurObject.Failures[i].error=G_error;
+    CurObject.Failures[i].error.testmethod = testmethod;
+    
+    G_error = NULL;
+}
+
+/**
+ * The AddError() method adds a row to the Errors array.
+ *
+ * @param thetest	The Testcase involved.
+ * @param testmethod	The name of the test method involved
+ *
+ */
+METHOD AddError(thetest = Testcase, testmethod = varchar(32) not null)=
+DECLARE
+    i=INTEGER NOT NULL;
+ENDDECLARE
+{
+    i = CurObject.Errors.LastRow+1;
+    CurObject.Errors[i].test=thetest;
+    CurObject.Errors[i].error=G_error;
+    CurObject.Errors[i].error.testmethod = testmethod;
+    G_error = NULL;
+}
+
+/**
+ * The AddSkipped() method adds a row to the Skipped array.
+ *
+ * @param thetest	The Testcase involved.
+ * @param testmethod	The name of the test method involved
+ *
+ */
+METHOD AddSkipped(thetest = Testcase, testmethod = varchar(32) not null)=
+DECLARE
+    i=INTEGER NOT NULL;
+ENDDECLARE
+{
+    i = CurObject.Skipped.LastRow+1;
+    CurObject.Skipped[i].test=thetest;
+    CurObject.Skipped[i].error=G_error;
+    CurObject.Skipped[i].error.testmethod = testmethod;
+    G_error = NULL;
+}

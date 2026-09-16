@@ -1,0 +1,6 @@
+[classsource]
+superclass = "userobject"
+
+[attributes]
+error = "ERROR DEFAULT NULL"
+test = "TESTCASE DEFAULT NULL"

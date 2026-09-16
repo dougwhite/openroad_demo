@@ -1,0 +1,3 @@
+[proc3glsource]
+datatype = "integer8"
+libraryname = "kernel32.dll"

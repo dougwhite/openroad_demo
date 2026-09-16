@@ -16,12 +16,13 @@ and an independent disposable Ingres database initialized as an OpenROAD source
 repository. Gorak does not create that database. Linux clients need an OpenROAD
 execution host, for example Windows over SSH.
 
-Install Actian's **UnitTestFramework** into that source repository as
-`unittestframework`, with its required runtime libraries and environment settings.
-It provides `TestCase`, `G_Assert` and `executeTests`; this repository does not
-redistribute it. Follow the framework's installation instructions and Gorak's
-[runtime environment documentation](https://github.com/dougwhite/gorak/blob/master/docs/run-test.md#trace-and-runtime-environment).
-The standard OpenROAD image libraries must also be available on the execution host.
+The clone includes **UnitTestFramework** as readable source in `unittestframework/`.
+Gorak imports it before Launch Score. It provides `TestCase`, `G_Assert` and
+`executeTests`; see [third-party provenance](THIRD_PARTY.md). This copy uses Windows
+`kernel32.dll` (`GetTickCount64`), so the tested demo runtime is Windows OpenROAD.
+The licensed OpenROAD installation and standard image libraries remain external.
+See Gorak's [runtime environment documentation](https://github.com/dougwhite/gorak/blob/master/docs/run-test.md#trace-and-runtime-environment)
+for framework environment settings.
 
 ```sh
 git clone https://github.com/dougwhite/openroad_demo.git
@@ -67,7 +68,8 @@ of Git. Use a separate clone for a different source database.
 ## Reconstruct and run the baseline
 
 Close Workbench editors before importing. The first operation on this fresh clone
-is a **push**, to create `launch_score` from the tracked source:
+is a **push**, to create `unittestframework` and then `launch_score` from the
+tracked source:
 
 ```sh
 gorak sync --push
@@ -96,16 +98,17 @@ The portable source is `gorak.json`, `app.json`, `.w4gl`, `.wml` and inherited
 `field_defaults.json` files. Reconstruction needs no original `.openroad` cache or
 XML companions. `.openroad/` is local binding, synchronization and recovery state.
 
-Use a target with no existing `launch_score`. An otherwise empty initialized
-repository needs UnitTestFramework installed first. A non-empty disposable
-repository can contain that dependency and unrelated applications; inspect the
+Use a target with neither `launch_score` nor `unittestframework` already present.
+The push installs both applications in an empty initialized repository. A
+non-empty disposable repository may contain unrelated applications; inspect the
 push plan before proceeding:
 
 ```sh
 gorak sync --push --dry-run
 ```
 
-Do not use this walkthrough to overwrite an existing `launch_score`. Stop on a
+Do not use this walkthrough to overwrite an existing `launch_score` or
+`unittestframework`. Stop on a
 conflict or verification failure and keep the reported recovery artifacts; see
 [Gorak synchronization](https://github.com/dougwhite/gorak/blob/master/docs/synchronization.md).
 
@@ -184,5 +187,6 @@ See [the acceptance checklist](docs/acceptance.md) for verification performed an
 remaining live checks. Static source reconstruction is not OpenROAD compilation
 or a visual walkthrough.
 
-[MIT License](LICENSE), matching Gorak. OpenROAD and UnitTestFramework are separate
-prerequisites and are not included under this repository's license.
+[MIT License](LICENSE) for the original demo, matching Gorak. The bundled
+UnitTestFramework is third-party source; see [THIRD_PARTY.md](THIRD_PARTY.md).
+The MIT grant does not relicense that framework or OpenROAD.

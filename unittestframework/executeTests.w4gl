@@ -1,0 +1,19 @@
+[proc4glsource]
+
+===
+
+/**
+ * The executeTests procedure adds a test to the test suite (G_Helper.AppTestSuite) which will be run in a separate thread.
+ *
+ * @author	Bodo Bergmann
+ *
+ * @param test	The testcase to be added
+ *
+ */
+PROCEDURE executeTests
+(
+	test = TestCase DEFAULT NULL
+)=
+{
+	G_Helper.AddTestToRun(test = test);
+}

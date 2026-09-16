@@ -1,0 +1,134 @@
+[classsource]
+superclass = "test"
+
+[methods]
+run = "METHOD"
+runTest = "PRIVATE METHOD"
+setUp = "PRIVATE METHOD"
+tearDown = "PRIVATE METHOD"
+
+===
+
+/**
+ * The TestCase class represents a test case.
+ * A test case defines the fixture to run multiple tests. To define a test case
+ * 1) Implement a subclass of TestCase
+ *	Add test methods (method name starts with "test"), which can use the assertion
+ *	methods defined in the Assert class via the G_Assert global variables.
+ * 2) Define instance variables that store the state of the fixture
+ * 3) Initialize the fixture state by overriding setUp
+ * 4) Clean-up after by overriding tearDown.
+ *
+ * @author	Bodo Bergmann
+ *
+ */
+
+#include i_TestStatus
+INITIALIZE=
+DECLARE
+	cs = ClassSource DEFAULT NULL;
+	ucl = UserClassObject DEFAULT NULL;
+	stat = INTEGER NOT NULL;
+ENDDECLARE
+{
+	ucl = UserClassObject(CurObject.Class);
+	cs = ClassSource(ucl.ObjectSource);
+}
+
+/**
+ * The run() method runs the test case and collects the results in a TestResult object.
+ * It will invoke setUp(), then run the test methods by invoking runTests(), then invoke tearDown().
+ *
+ * @param result	The TestResult object that captures the result of the test run.
+ *
+ */
+METHOD run(result=TestResult DEFAULT NULL)=
+{
+	IF (result IS NULL) THEN
+		result = TestResult.Create();
+	ENDIF;
+
+	result.StartTest(thetest=CurObject);
+
+	result.StartTestMethod(thetest=CurObject, testmethod='setUp');
+	IF CurMethod.SetExitTrap()=ER_OK THEN
+		// try
+		CurObject.setUp();
+		result.EndTestMethod(status = $OK);
+	ELSE // catch
+		IF G_Error.IsA(class=SkippedTest)=TRUE THEN
+			stat = $SKIPPED;
+		ELSE // Error/Failure in setUp is always considered as Error
+			stat = $ERROR;
+		ENDIF;
+		result.EndTestMethod(status = stat);
+		result.EndTest();
+		RETURN; // Do not run any test methods if setUp was not OK
+	ENDIF;
+
+	CurObject.runTest(result=result); 
+	CurObject.tearDown();
+	result.EndTest();
+}
+
+/**
+ * The runTests() method invokes all defined test methods (name starting with "test") of the class.
+ * The methods are executed in alphabetic order.
+ *
+ * @param result	The TestResult object that captures the result of the test methods invoked.
+ *
+ */
+METHOD runTest(result=TestResult DEFAULT NULL)=
+DECLARE
+	i = INTEGER NOT NULL;
+	k = INTEGER NOT NULL;
+	methname = VARCHAR(32) NOT NULL;
+	marr = ARRAY OF StringObject;
+	status = INTEGER NOT NULL;
+ENDDECLARE
+{
+	IF cs IS NULL THEN
+		// ClassSource not found (class from image) - using workaround.
+		cs = ClassSource(G_Helper.GetTestAppSource().FetchComponent(componentname=ucl.FullName));
+	ENDIF;
+	FOR i=1 TO cs.Methods.LastRow DO
+		methname = cs.Methods[i].Name;
+		IF LOWERCASE(LEFT(methname, 4))='test' THEN
+			k=k+1;
+			marr[k].Value = methname;
+		ENDIF;
+	ENDFOR;
+	marr.Sort(value = AS_ASC);
+	FOR i=1 TO k DO
+		methname = marr[i].Value;
+		result.StartTestMethod(thetest=CurObject, testmethod=methname);
+		IF CurMethod.SetExitTrap()=ER_OK THEN
+			// try
+			CurObject.:methname();
+			stat = $OK;
+		ELSE // catch
+			IF G_Error.IsA(class=SkippedTest)=TRUE THEN
+				stat = $SKIPPED;
+			ELSEIF G_Error.IsA(class=AssertionFailedError)=TRUE THEN
+				stat = $FAILED;
+			ELSE
+				stat = $ERROR;
+			ENDIF;
+		ENDIF;
+		result.EndTestMethod(status = stat);
+	ENDFOR;
+}
+
+/**
+ *	The setUp() method can be overridden by subclasses to setup the test case.
+ */
+METHOD setUp()=
+{
+}
+
+/**
+ *	The tearDown() method can be overridden by subclasses to clean-up the test case.
+ */
+METHOD tearDown()=
+{
+}
