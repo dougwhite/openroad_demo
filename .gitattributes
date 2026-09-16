@@ -1,0 +1,4 @@
+# Keep Gorak-managed source consistent with its LF exports on every platform.
+*.w4gl text eol=lf
+*.wml text eol=lf
+*.json text eol=lf
