@@ -81,10 +81,10 @@
       name="calculate_score"
       xleft="125"
       ytop="1396"
-      width="1323"
+      width="2000"
       height="260"
       designbias="3"
-      textlabel="Calculate score"
+      textlabel="Calculate launch score"
     />
     <freetrim
       xleft="146"
