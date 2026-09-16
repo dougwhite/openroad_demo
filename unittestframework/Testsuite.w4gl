@@ -1,0 +1,70 @@
+[classsource]
+superclass = "test"
+
+[attributes]
+tests = "ARRAY OF TESTCASE"
+
+[methods]
+run = "METHOD"
+
+===
+
+/**
+ * A TestSuite is a collection of test cases.
+ * When running the TestSuite all test cases are run and the results are collected in a TestSuiteResult object.
+ *
+ * @author	Bodo Bergmann
+ *
+ */
+
+/**
+ * The run() method runs all the test cases in the testsuite and collects the results in a TestSuiteResult object.
+ *
+ * @param result	The TestResult object that captures the result of the test run.
+ *
+ */
+METHOD run(
+	result = TestSuiteResult
+)=
+DECLARE
+	results = ARRAY OF TestResult;
+	tresult = TestResult DEFAULT NULL;
+	test = TestCase DEFAULT NULL;
+	i = INTEGER NOT NULL;
+	t1 = INTEGER8 not null;
+	t2 = INTEGER8 not null;
+ENDDECLARE
+{
+	IF CurObject.Name = '' THEN
+		CurObject.Name = G_Helper.GetTestAppSource().Name;
+	ENDIF;
+	CurExec.Trace(text= HC_NEWLINE + 'Running testsuite ' + CurObject.Name + ' ...');
+	result.testsuitename = CurObject.Name;
+	results = result.testresults;
+	// Preparing test results
+	FOR i=1 TO CurObject.tests.LastRow DO
+		results[i] = TestResult.Create();
+	ENDFOR;
+	// Running tests
+	result.testtimestamp = DATE('NOW');
+	t1 = GetTickCount64();
+	FOR i=1 TO CurObject.tests.LastRow DO
+		tresult = results[i];
+		test = CurObject.tests[i];
+		test.run(result = tresult);
+		IF tresult.testclassname = '' THEN
+			// No testclassname set, probably compile error in testclass
+			tresult.testclassname = test.ClassName;
+			tresult.TestsRun = 1;
+			tresult.testtimestamp = DATE('NOW');
+			tresult.exec_time = 0;
+			G_Error  = Error.Create();
+			G_Error.errorexec = test.ClassName;
+			G_Error.errortext = 'Error in testcase class ' + test.ClassName;
+			tresult.AddError(thetest = test);
+		ENDIF;
+	ENDFOR;
+	t2 = GetTickCount64();
+	result.exec_time = t2-t1;
+	CurExec.Trace(text= HC_NEWLINE + 'TestSuite ' + CurObject.Name + ' DONE.');
+}

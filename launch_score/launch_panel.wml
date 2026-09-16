@@ -54,7 +54,7 @@
       fieldstyle="0"
       bgpattern="2"
       charsperline="17"
-      stringvalue="12 points per capsule"
+      stringvalue="10 points per capsule"
     />
     <freetrim
       xleft="115"
@@ -69,6 +69,7 @@
     />
     <entryfield
       name="capsule_count"
+      gorak_style="1"
       datatype="integer"
       defaultvalue="3"
       defaultstring="5"
@@ -82,10 +83,10 @@
       name="calculate_score"
       xleft="125"
       ytop="1396"
-      width="2000"
+      width="1323"
       height="260"
       designbias="3"
-      textlabel="Calculate launch score"
+      textlabel="Calculate score"
     />
     <freetrim
       xleft="146"
@@ -100,6 +101,7 @@
     />
     <entryfield
       name="score"
+      gorak_style="1"
       datatype="integer"
       defaultvalue="3"
       defaultstring="50"

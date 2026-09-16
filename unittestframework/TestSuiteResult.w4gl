@@ -1,0 +1,180 @@
+[classsource]
+superclass = "userobject"
+
+[attributes]
+testresults = "ARRAY OF TESTRESULT"
+testtimestamp = "DATE NOT NULL"
+exec_time = "INTEGER8 NOT NULL"
+testsuitename = "VARCHAR(32) NOT NULL"
+
+[methods]
+AsString = "METHOD RETURNING STRINGOBJECT"
+AsXml = "METHOD RETURNING XMLELEMENT"
+
+===
+
+/**
+ * The TestSuiteResult class represents the results of running a TestSuite.
+ *
+ * @author	Bodo Bergmann
+ *
+ */
+#include i_TestStatus
+
+/**
+ * The AsString() method returns a string representation of the test results.
+ *
+ * @return	StringObject
+ *
+ */
+METHOD AsString()=
+DECLARE
+	i = INTEGER NOT NULL;
+	tc = INTEGER NOT NULL;
+	sum_cnt = INTEGER NOT NULL;
+	sum_fail = INTEGER NOT NULL;
+	sum_err = INTEGER NOT NULL;
+	sum_skip = INTEGER NOT NULL;
+	resultstr = StringObject;
+	result = TestResult DEFAULT NULL;
+	e = Error DEFAULT NULL;
+ENDDECLARE
+{
+	FOR tc=1 TO CurObject.testresults.LastRow DO
+		result = CurObject.testresults[tc];
+		IF result.skipped.LastRow>0 THEN
+			IF CurSession.ExitCode=0 THEN
+				CurSession.ExitCode=2;
+			ENDIF;
+			IF result.skipped.LastRow>0 THEN
+				CurExec.Trace(text= '=== Skipped Tests ===');
+			ENDIF;
+			FOR i=1 TO result.skipped.LastRow DO
+				e = result.skipped[i].error;
+				CurExec.Trace(text= e.testmethod + ' ' + e.errorexec + ' (line '+varchar(e.errorline)+'): ' +
+					HC_NEWLINE + HC_TAB + e.errortext);
+			ENDFOR;
+		ENDIF;
+
+		IF result.errors.LastRow>0 OR result.failures.LastRow>0 THEN
+			CurSession.ExitCode=1;
+			IF result.errors.LastRow>0 THEN
+				CurExec.Trace(text= '=== Errors ===');
+			ENDIF;
+			FOR i=1 TO result.errors.LastRow DO
+				e = result.errors[i].error;
+				CurExec.Trace(text= e.testmethod + ' ' + e.errorexec + ' (line '+varchar(e.errorline)+'): ' +
+				HC_NEWLINE +  e.ClassName + HC_NEWLINE + HC_TAB + e.errortext);
+			ENDFOR;
+			IF result.failures.LastRow>0 THEN
+				CurExec.Trace(text= '=== Failures ===');
+			ENDIF;
+			FOR i=1 TO result.failures.LastRow DO
+				e = result.failures[i].error;
+				CurExec.Trace(text= e.testmethod + ' ' + e.errorexec + ' (line '+varchar(e.errorline)+'): ' +
+				HC_NEWLINE + e.ClassName + HC_NEWLINE + HC_TAB + e.errortext);
+			ENDFOR;
+		ENDIF;
+		resultstr.ConcatVarchar(text = result.testclassName +': TestsRun=' + varchar(result.TestsRun) +
+			', Time_in_ms=' + varchar(result.exec_time) +
+			', Failures=' + varchar(result.failures.LastRow) +
+			', Errors=' + varchar(result.errors.LastRow) +
+			', Skipped=' + varchar(result.skipped.LastRow) + HC_NEWLINE);
+
+		sum_cnt = sum_cnt + result.TestsRun;
+		sum_fail = sum_fail + result.failures.LastRow;
+		sum_err = sum_err + result.errors.LastRow;
+		sum_skip = sum_skip + result.skipped.LastRow;
+
+	ENDFOR;
+	resultstr.ConcatVarchar(text = 'SUMMARY FOR TESTSUITE ' + CurObject.TestSuiteName + ': ' +
+			'TestsRun=' + varchar(sum_cnt) +
+			', Time_in_ms=' + varchar(CurObject.exec_time) +
+			', Failures=' + varchar(sum_fail) +
+			', Errors=' + varchar(sum_err) +
+			', Skipped=' + varchar(sum_skip) + HC_NEWLINE);
+	RETURN resultstr;
+}
+
+/**
+ * The AsString() method returns an XML representation of the test results.
+ *
+ * @return	XMLElement
+ *
+ */
+METHOD AsXML()=
+DECLARE
+	i = INTEGER NOT NULL;
+	tc = INTEGER NOT NULL;
+	tmc = INTEGER NOT NULL;
+	sum_cnt = INTEGER NOT NULL;
+	sum_fail = INTEGER NOT NULL;
+	sum_err = INTEGER NOT NULL;
+	sum_skip = INTEGER NOT NULL;
+	resultstr = StringObject;
+	result = TestResult DEFAULT NULL;
+	tmr = TestMethodResult DEFAULT NULL;
+	e = Error DEFAULT NULL;
+	ts_elem = XMLElement;
+	tm_elem = XMLElement DEFAULT NULL;
+	sub_elem = XMLElement DEFAULT NULL;
+	jn = JsonNumber;
+	js = JsonString DEFAULT NULL;
+ENDDECLARE
+{
+	ts_elem.Name = 'testsuite';
+	ts_elem.AddAttribute(name = 'name', value = CurObject.TestSuiteName);
+	jn.SetValue(value = float8(CurObject.exec_time)/1000.0);
+	ts_elem.AddAttribute(name = 'time', value = jn.TextValue);
+	js = JsonString(CurSession.JsonHandler.NewJsonValue(value = CurObject.testtimestamp));
+	ts_elem.AddAttribute(name = 'timestamp', value = js.Value.Value);
+
+
+	FOR tc=1 TO CurObject.testresults.LastRow DO
+		result = CurObject.testresults[tc];
+		IF result.skipped.LastRow>0 THEN
+			IF CurSession.ExitCode=0 THEN
+				CurSession.ExitCode=2;
+			ENDIF;
+		ENDIF;
+		IF result.errors.LastRow>0 OR result.failures.LastRow>0 THEN
+			CurSession.ExitCode=1;
+		ENDIF;
+
+		sum_cnt = sum_cnt + result.TestsRun;
+		sum_fail = sum_fail + result.failures.LastRow;
+		sum_err = sum_err + result.errors.LastRow;
+		sum_skip = sum_skip + result.skipped.LastRow;
+
+		FOR tmc=1 TO result.testmethodresults.LastRow DO
+			tmr = result.testmethodresults[tmc];
+			ts_elem.AddChildElement(name = 'testcase', child = BYREF(tm_elem));
+			tm_elem.AddAttribute(name = 'name', value = tmr.testmethodname);
+			tm_elem.AddAttribute(name = 'classname', value = CurObject.TestSuiteName + '.' + tmr.testclassname);
+			jn.SetValue(value = float8(tmr.exec_time)/1000.0);
+			tm_elem.AddAttribute(name = 'time', value = jn.TextValue);
+			CASE tmr.status OF
+				$OK, DEFAULT: ;
+				$SKIPPED: {
+					tm_elem.AddChildElement(name = 'skipped');
+				}
+				$FAILED: {
+					tm_elem.AddChildElement(name = 'failure', child = BYREF(sub_elem));
+					sub_elem.AddAttribute(name = 'message', value = tmr.err.errortext + ' (line: '+varchar(tmr.err.errorline)+')');
+					sub_elem.AddAttribute(name = 'type', value = tmr.err.classname);
+				}
+				$ERROR: {
+					tm_elem.AddChildElement(name = 'error', child = BYREF(sub_elem));
+					sub_elem.AddAttribute(name = 'message', value = tmr.err.errortext + ' (line: '+varchar(tmr.err.errorline)+')');
+					sub_elem.AddAttribute(name = 'type', value = tmr.err.classname);
+				}
+			ENDCASE;
+		ENDFOR;
+	ENDFOR;
+	ts_elem.AddAttribute(name = 'tests', value = VARCHAR(sum_cnt));
+	ts_elem.AddAttribute(name = 'errors', value = VARCHAR(sum_err));
+	ts_elem.AddAttribute(name = 'failures', value = VARCHAR(sum_fail));
+	ts_elem.AddAttribute(name = 'skipped', value = VARCHAR(sum_skip));
+
+	RETURN ts_elem;
+}

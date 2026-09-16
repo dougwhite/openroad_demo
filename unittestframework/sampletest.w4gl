@@ -1,0 +1,20 @@
+[classsource]
+versshortremarks = "A sample test class"
+superclass = "testcase"
+
+[methods]
+testMethod1 = "METHOD"
+
+===
+
+/**
+ * The sampletest class is a TestCase subclass with only one test method testMethod1.
+ * It is provided here for demo purpose only.
+ *
+ * @author	Bodo Bergmann
+ */
+
+METHOD testMethod1()=
+{
+    G_Assert.AssertEquals(expectedInteger=1 , actualInteger=1, errortext='Something wrong.');
+}

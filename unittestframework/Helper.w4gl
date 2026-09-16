@@ -1,0 +1,372 @@
+[classsource]
+versshortremarks = "Helper functionality for tests"
+superclass = "userobject"
+
+[attributes]
+DirectorySeparator = "VARCHAR(1) NOT NULL"
+TempDir = "VARCHAR(256) NOT NULL"
+htTempFiles = "STRINGHASHTABLE"
+ResourceDir = "VARCHAR(256) NOT NULL"
+TestDir = "VARCHAR(256) NOT NULL"
+TestStatsFile = "VARCHAR(256) NOT NULL"
+genXmlStats = "SMALLINT NOT NULL"
+TestStatsFileXml = "VARCHAR(256) NOT NULL"
+TestStatsXmlDoc = "XMLDOCUMENT DEFAULT NULL"
+TestAppSource = "APPSOURCE DEFAULT NULL"
+TestRunnerExec = "GHOSTEXEC DEFAULT NULL"
+AppTestSuite = "TESTSUITE DEFAULT NULL"
+
+[methods]
+LocalFilename = "METHOD RETURNING VARCHAR(256) NOT NULL"
+GetResourceFilePath = "METHOD RETURNING VARCHAR(256) NOT NULL"
+GetTempFilePath = "METHOD RETURNING VARCHAR(256) NOT NULL"
+RemoveRegisteredTempFiles = "METHOD"
+RemoveRegisteredTempFile = "METHOD"
+RemoveFile = "METHOD RETURNING INTEGER NOT NULL"
+GetTestAppSource = "METHOD RETURNING APPSOURCE"
+AddTestToRun = "METHOD"
+CleanupTestRunner = "METHOD"
+
+===
+
+/**
+ * The Helper class provides a set of helper attributes and methods,
+ * which can be used via the G_Helper global variable (instance of Helper class).
+ * Messages are only displayed when an assert fails.
+ *
+ * @author	Bodo Bergmann
+ *
+ */
+
+INITIALIZE=
+DECLARE
+	testdir = VARCHAR(256) NOT NULL;
+	tmpdir = VARCHAR(256) NOT NULL;
+	teststatsfile = VARCHAR(256) NOT NULL;
+	xd = XmlDocument;
+	valid_rootelem = SMALLINT NOT NULL;
+ENDDECLARE
+{
+	IF CurSession.OperatingSystem=SY_UNIX THEN
+		CurObject.DirectorySeparator = '/';
+	ENDIF;
+
+	testdir = CurSession.GetEnv(name = 'OR_UNITTEST_TESTDIR');
+	IF testdir = '' THEN
+		testdir = CurSession.WorkingDirectory;
+	ENDIF;
+	CurObject.TestDir = testdir;
+
+	teststatsfile = CurSession.GetEnv(name = 'OR_UNITTEST_STATSFILE');
+	IF teststatsfile = '' THEN
+		teststatsfile = testdir + CurObject.DirectorySeparator + 'orunitteststats.log';
+	ENDIF;
+	CurObject.TestStatsFile = teststatsfile;
+
+	teststatsfile = CurSession.GetEnv(name = 'OR_UNITTEST_GEN_XML_STATS');
+	IF LOWERCASE(teststatsfile) = 'true' THEN
+		CurObject.genXmlStats = TRUE;
+		teststatsfile = CurSession.GetEnv(name = 'OR_UNITTEST_STATSFILE_XML');
+		IF teststatsfile = '' THEN
+			teststatsfile = testdir + CurObject.DirectorySeparator + 'orunitteststats.xml';
+		ENDIF;
+		CurObject.TestStatsFileXml = teststatsfile;
+		IF CurSession.FileExists(filename = teststatsfile)=TRUE THEN
+			IF xd.ParseUrl(urllocation = teststatsfile)=ER_OK THEN
+				IF xd.RootElement.Name = 'testsuites' THEN
+					valid_rootelem = TRUE;
+				ENDIF;
+			ENDIF;
+		ENDIF;
+		IF valid_rootelem = FALSE THEN
+			xd.RootElement = XmlElement.Create();
+			xd.RootElement.Name = 'testsuites';
+		ENDIF;
+		CurObject.TestStatsXmlDoc = xd;
+	ENDIF;
+
+	tmpdir = CurSession.GetEnv(name = 'OR_UNITTEST_TMPDIR');
+	IF tmpdir='' THEN
+		IF CurSession.DirectoryExists(directory=testdir + CurObject.DirectorySeparator + 'temp')=TRUE THEN
+			tmpdir = testdir + CurObject.DirectorySeparator + 'temp';
+		ELSEIF CurSession.DirectoryExists(directory='testtemp')=TRUE THEN
+			tmpdir = CurSession.WorkingDirectory + CurObject.DirectorySeparator + 'testtemp';
+		ENDIF;
+		IF tmpdir='' THEN
+			tmpdir = CurSession.GetEnv(name = 'II_TEMPORARY');
+			IF tmpdir='' THEN
+				tmpdir = CurSession.GetEnv(name = 'TMPDIR');
+				IF tmpdir='' THEN
+					tmpdir = CurSession.GetEnv(name = 'TEMP');
+					IF tmpdir='' THEN
+						tmpdir = CurSession.GetEnv(name = 'TMP');
+						IF tmpdir='' THEN
+							IF CurSession.OperatingSystem=SY_UNIX THEN
+								IF CurSession.DirectoryExists(directory='/tmp')=TRUE THEN
+									tmpdir = '/tmp';
+								ELSEIF CurSession.DirectoryExists(directory='/var/tmp')=TRUE THEN
+									tmpdir = '/var/tmp';
+								ELSEIF CurSession.DirectoryExists(directory='/usr/tmp')=TRUE THEN
+									tmpdir = '/usr/tmp';
+								ENDIF;
+							ELSE
+								IF CurSession.DirectoryExists(directory='C:\TEMP')=TRUE THEN
+									tmpdir = 'C:\TEMP';
+								ELSEIF CurSession.DirectoryExists(directory='C:\TMP')=TRUE THEN
+									tmpdir = 'C:\TMP';
+								ELSEIF CurSession.DirectoryExists(directory='\TEMP')=TRUE THEN
+									tmpdir = '\TMP';
+								ELSEIF CurSession.DirectoryExists(directory='\TEMP')=TRUE THEN
+									tmpdir = '\TMP';
+								ENDIF;
+							ENDIF;
+						ENDIF;
+					ENDIF;
+				ENDIF;
+			ENDIF;
+		ENDIF;
+	ENDIF;
+	IF tmpdir='' THEN
+		CurObject.TempDir = CurSession.WorkingDirectory;
+	ELSE
+		CurObject.TempDir = tmpdir;
+	ENDIF;
+
+	tmpdir = CurSession.GetEnv(name = 'OR_UNITTEST_RESOURCEDIR');
+	IF tmpdir='' THEN
+		IF CurSession.DirectoryExists(directory=testdir + CurObject.DirectorySeparator + 'resources')=TRUE THEN
+			tmpdir = testdir + CurObject.DirectorySeparator + 'resources';
+		ENDIF;
+		IF tmpdir='' THEN
+			IF CurSession.DirectoryExists(directory='resources')=TRUE THEN
+				tmpdir = CurSession.WorkingDirectory + CurObject.DirectorySeparator + 'resources';
+			ENDIF;
+		ENDIF;
+	ENDIF;
+	IF tmpdir='' THEN
+		CurObject.ResourceDir = CurObject.TempDir;
+	ELSE
+		CurObject.ResourceDir = tmpdir;
+	ENDIF;
+
+	CurExec.Trace(text='WorkingDirectory=' + CurSession.WorkingDirectory);
+	CurExec.Trace(text='TestDir=' + CurObject.TestDir);
+	CurExec.Trace(text='TempDir=' + CurObject.TempDir);
+	CurExec.Trace(text='ResourceDir=' + CurObject.ResourceDir);
+}
+
+
+/**
+ * Returns a file name in local (OS specific) format created from a
+ * filename in portable format (using "!" directory separator).
+ *
+ * @param filename	OS-independent filename containing the "!" directory separator
+ * @return		The filename in local format
+ *
+ */
+METHOD LocalFilename(
+	filename= VARCHAR(256) NOT NULL
+)=
+DECLARE
+	fname = VARCHAR(256) NOT NULL;
+	lname = VARCHAR(256) NOT NULL;
+	pos=integer NOT NULL;
+	i = INTEGER NOT NULL;
+	ln = INTEGER NOT NULL;
+ENDDECLARE
+{
+	fname = filename;
+	ln = LENGTH(fname);
+	pos = LOCATE(fname, '!');
+	WHILE pos<=ln DO
+		lname = lname + LEFT(fname, pos-1) + CurObject.DirectorySeparator;
+		fname = SHIFT(fname, -pos);
+		pos = LOCATE(fname, '!');
+	ENDWHILE;
+	lname = lname + fname;
+	RETURN lname;
+}
+
+/**
+ * Returns a file path in the ResourceDir created from a
+ * filename in portable format (using "!" directory separator).
+ *
+ * @param filename	OS-independent filename containing the "!" directory separator
+ * @return		The filename in local format
+ *
+ */
+METHOD GetResourceFilePath(
+	filename= VARCHAR(256) NOT NULL
+)=
+{
+	RETURN CurObject.ResourceDir + CurObject.DirectorySeparator + CurObject.LocalFilename(filename=filename);
+}
+
+/**
+ * Returns a file path in the TempDir created from a
+ * filename in portable format (using "!" directory separator).
+ *
+ * @param filename	OS-independent filename containing the "!" directory separator
+ * @param register_name	Specifies if the filename should be registered for deletion using RemoveRegisteredTempFile() or RemoveRegisteredTempFiles()
+ * @return		The filename in local format
+ *
+ */
+METHOD GetTempFilePath(
+	filename = VARCHAR(256) NOT NULL,
+	register_name = SMALLINT NOT NULL
+)=
+DECLARE
+	lname = VARCHAR(256) NOT NULL;
+	str = StringObject DEFAULT NULL;
+ENDDECLARE
+{
+	lname = CurObject.TempDir + CurObject.DirectorySeparator + CurObject.LocalFilename(filename=filename);
+	IF register_name = TRUE THEN
+		str = StringObject.Create();
+		str.Value = lname;
+		CurObject.htTempFiles.InsertObject(key = filename, object = str);
+	ENDIF;
+	RETURN lname;
+}
+
+/**
+ * Removes a registered file with filename in portable format
+ *
+ * @param filename	OS-independent filename containing the "!" directory separator
+ *
+ */
+METHOD RemoveRegisteredTempFile(
+	filename = VARCHAR(256) NOT NULL
+)=
+DECLARE
+	str = StringObject DEFAULT NULL;
+	i = INTEGER NOT NULL;
+ENDDECLARE
+{
+	str = StringObject(CurObject.htTempFiles.Find(key=filename));
+	IF str IS NOT NULL THEN
+		CurObject.RemoveFile(filename = str.Value);
+		CurObject.htTempFiles.RemoveObject(key=filename);
+	ENDIF;
+}
+
+/**
+ * Removes all registered files
+ *
+ */
+METHOD RemoveRegisteredTempFiles()=
+DECLARE
+	arr = ARRAY OF HashTableEntry DEFAULT NULL;
+	i = INTEGER NOT NULL;
+ENDDECLARE
+{
+	arr = CurObject.htTempFiles.Entries;
+	FOR i=arr.LastRow DOWNTO 1 DO
+		CurObject.RemoveFile(filename = StringObject(arr[i].object).Value);
+	ENDFOR;
+	CurObject.htTempFiles.Clear();
+	arr.Clear();
+}
+
+/**
+ * Removes a file with filename in local (OS specific) format
+ *
+ * @param filename	OS specific filename
+ * @return	status - ER_OK if successful, ER_FAIL otherwise
+ *
+ */
+METHOD RemoveFile(
+	filename= VARCHAR(256) NOT NULL
+)=
+DECLARE
+	procwin = INTEGER NOT NULL;
+	procwait = INTEGER NOT NULL;
+	cmd = VARCHAR(2000) NOT NULL;
+ENDDECLARE
+{
+	procwin = CurSession.ProcessWindow;
+	procwait = CurSession.ProcessWait;
+	CurSession.ProcessWindow = FALSE;
+	CurSession.ProcessWait = TRUE;
+	IF CurSession.FileExists(filename=filename)=FALSE THEN
+		CurExec.Trace(text = 'File "'+filename+'" does not exist, cannot remove!');
+		RETURN ER_FAIL;
+	ENDIF;
+	IF CurSession.OperatingSystem=SY_UNIX THEN
+		cmd = 'rm -f '+filename;
+	ELSE
+		cmd = 'cmd /c del /f "'+filename+'"';
+	ENDIF;
+	CALL SYSTEM :cmd;
+	CurSession.ProcessWindow = procwin;
+	CurSession.ProcessWait = procwait;
+	IF CurSession.FileExists(filename=filename)=TRUE THEN
+		CurExec.Trace(text = 'Removal of file "'+filename+'" failed!');
+		RETURN ER_FAIL;
+	ENDIF;
+	RETURN ER_OK;
+}
+
+/**
+ * Returns a AppSource for the top component of the current thread.
+ *
+ * @return		The AppSource for the top component of the current thread
+ *
+ */
+METHOD GetTestAppSource()=
+DECLARE
+	pExec = ProcExec DEFAULT NULL;
+ENDDECLARE
+BEGIN
+	IF CurObject.TestAppSource IS NULL THEN
+		pExec = ProcExec(CurMethod.Parent);
+		WHILE pExec.Parent IS NOT NULL DO
+			IF pExec.Parent.IsA(class = ProcExec)=TRUE THEN
+				pExec = ProcExec(pExec.Parent);
+			ELSE
+				ENDLOOP;
+			ENDIF;
+		ENDWHILE;
+
+		CurObject.TestAppSource = pExec.ObjectSource.ParentApplication;
+	ENDIF;
+	RETURN CurObject.TestAppSource;
+END;
+
+
+/**
+ * Sets AppTestSuite and TestRunnerExec attributes to NULL.
+ *
+ *
+ */
+METHOD CleanupTestRunner()=
+{
+	CurObject.AppTestSuite = NULL;
+	CurObject.TestRunnerExec = NULL;
+
+}
+
+/**
+ * Adds a test to the test suite referenced the AppTestSuite attribute,
+ * .
+ * If TestRunnerExec attribute is NULL, then the AppTestSuite is created before
+ * and a TestRunnerGhost, which will later run the test suite, is started as new thread
+ * via openframe and its GhostExec assigned to the TestRunnerExec attribute.
+ *
+ * @param test	The test case to be added
+ *
+ */
+METHOD AddTestToRun(test = TestCase DEFAULT NULL)=
+{
+	IF test IS NULL THEN
+		CurExec.Trace(text = 'ERROR: Parameter "test" must not be NULL!');
+		RETURN;
+	ENDIF;
+	IF CurObject.TestRunnerExec IS NULL THEN
+		CurObject.AppTestSuite = TestSuite.Create();
+		CurObject.AppTestSuite.Name = CurObject.GetTestAppSource().Name;
+		CurObject.TestRunnerExec = OPENFRAME TestRunnerGhost WITH ParentFrame=NULL;
+	ENDIF;
+	// Add the test to the TestSuite - will be run by the TestRunnerGhost thread
+	CurObject.AppTestSuite.tests[CurObject.AppTestSuite.tests.LastRow+1] = test;
+}

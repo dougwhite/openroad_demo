@@ -1,0 +1,27 @@
+[classsource]
+superclass = "userobject"
+
+[attributes]
+name = "VARCHAR(100) NOT NULL"
+
+[methods]
+run = "METHOD"
+
+===
+
+/**
+ * The Test class is an abstract class.
+ * It defines attributes and methods common to its subclasses (Testcase, Testsuite).
+ *
+ * Attributes:
+ *	name	The name of the test.
+ * Methods:
+ * 	run	Runs the test. This method should be overridden by all subclasses.
+ *
+ * @author	Bodo Bergmann
+ */
+
+METHOD run()=
+{
+    CurMethod.Trace(text = 'Virtual method invoked: Test.run()');
+}

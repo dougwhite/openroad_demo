@@ -1,0 +1,8 @@
+[scriptsource]
+
+===
+
+#define $OK 0
+#define $FAILED 1
+#define $SKIPPED 2
+#define $ERROR 3

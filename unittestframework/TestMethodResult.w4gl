@@ -1,0 +1,9 @@
+[classsource]
+superclass = "userobject"
+
+[attributes]
+testclassname = "VARCHAR(32) NOT NULL"
+testmethodname = "VARCHAR(32) NOT NULL"
+status = "INTEGER NOT NULL"
+exec_time = "INTEGER8 NOT NULL"
+err = "ERROR DEFAULT NULL"

@@ -1,72 +1,82 @@
 # Launch Score — Gorak demo
 
-A disposable OpenROAD application for demonstrating readable source edits,
-verified synchronization, deterministic tests and an AI-authored pull request.
-The baseline awards 10 points per capsule: 1 → 10 and 5 → 50.
+A small OpenROAD application for following the Gorak demo: start with 10 points
+per capsule, make a change in Workbench, then ask Codex to add a fleet bonus.
 
-## Setup
+**[Gorak](https://github.com/dougwhite/gorak)** ·
+**[Watch the demo](https://www.youtube.com/watch?v=zlncaV1mLqM)** ·
+**[Project and updates](https://thingsdougmakes.au/projects/gorak/)**
 
-Install Gorak from its source checkout. Configure a local-only `.env` for an
-independent disposable OpenROAD source database and execution host. Install the
-Actian UnitTestFramework as `unittestframework` and configure its runtime libraries.
-This repository does not redistribute the framework. SSH users need Gorak remote
-helpers version 8 (`gorak remote install`).
+## Get started
 
-For a fresh clone targeting a new disposable database:
+Install Gorak using its [getting started guide](https://github.com/dougwhite/gorak/blob/master/docs/getting-started.md)
+and create a fresh, blank OpenROAD source database for the demo.
 
-```sh
+```bat
+git clone https://github.com/dougwhite/openroad_demo.git
+cd openroad_demo
+copy .env.example .env
+```
+
+Edit `.env` to point at your demo database, then import the application and run
+its tests:
+
+```bat
 gorak sync --push
 gorak test
 ```
 
-The tracked `.gorak-source` companions preserve complete exported source. Keep
-`.env` and `.openroad` private and local. See AGENTS.md for the editing workflow.
+Open `launch_score` in Workbench and run `launch_panel`, or run it from your
+OpenROAD command prompt:
 
-## Recording
+```bat
+gorak run launch_score --component launch_panel
+```
 
-Start on a clean branch at `demo-baseline-10`. Run `gorak sync`, change the score
-multiplier to 12 in `launch_score/p4_score.w4gl`, update the assertions to 12 and 60,
-and change the subtitle in `launch_score/launch_panel.wml` to 12 points per capsule.
+Enter 1 or 5 capsules and click **Calculate score**: expect 10 or 50 points.
+Tests use the [OpenROAD UnitTestFramework](https://github.com/ActianCorp/OpenROAD_UnitTestFramework).
 
-```sh
-gorak sync --push && gorak test
+## Follow the video
+
+### Change 10 to 12 in Workbench
+
+In Workbench, change `p4_score` to return `capsules * 12`. Update the expected
+values in `test_launch_score` to 0, 12, 48, 60 and 72 for 0, 1, 4, 5 and 6 capsules.
+Change the frame subtitle to **12 points per capsule**, then save and close the
+editors.
+
+Pull those changes to disk and inspect the Git diff:
+
+```bat
+gorak status
+gorak sync
+gorak test
 git diff
+```
+
+Commit the changes:
+
+```bat
 git add launch_score/p4_score.w4gl launch_score/test_launch_score.w4gl launch_score/launch_panel.wml
 git commit -m "Set launch score to twelve points per capsule"
 ```
 
-Ask Codex:
+Five capsules now score 60 points.
 
-> Add a fleet bonus to Launch Score: award 20 extra points when the capsule count
-> is at least 5, retaining 12 points per capsule. Add deterministic assertions for
-> 0, 1, 4, 5 and 6 capsules. Update the Calculate score button to Calculate launch
-> score and widen it so the text fits. Follow AGENTS.md: pull, implement on a feature
-> branch, push through Gorak, run the tests, inspect the diff, commit, push the branch
-> and create a pull request against the branch containing my manual edit. Do not
-> merge. Report results and the PR link.
+### Ask Codex to add a fleet bonus
 
-Expected feature scores: 0, 12, 48, 80 and 92 respectively. Open the frame in
-Workbench to see the feature. Close its running window and editor before imports.
+Open this repository in Codex and give it this prompt:
 
-## Repeat a take
+> Please add a one-time score bonus of 20 points when the capsule count is at
+> least 5, keeping the existing 12 points per capsule. Update the tests to cover
+> 0, 1, 4, 5 and 6 capsules, with expected scores of 0, 12, 48, 80 and 92.
+> Change the Calculate score button to Calculate launch score and widen it to fit.
+> Follow AGENTS.md: create a feature branch, make the changes, push them through
+> Gorak and run the tests. Inspect the diff, commit, push the branch and create a
+> pull request for review. Do not merge it.
 
-Save intended work in Git first. Switch to `main`, which retains the 10-point
-baseline, and synchronize it back into the same disposable database:
+Run the frame again: **5 capsules → 80 points**.
 
-```sh
-git switch main
-gorak sync --push && gorak test
-```
+## License
 
-For a main branch changed during recording, create a reset branch and restore only
-these source paths from the tag, inspect the diff, then push through Gorak and test:
-
-```sh
-git switch -c codex/reset-take
-git restore --source demo-baseline-10 -- launch_score/p4_score.w4gl launch_score/test_launch_score.w4gl launch_score/launch_panel.wml
-gorak sync --push && gorak test
-```
-
-A Git switch/restore changes disk source, not the database. Never delete cache,
-locks, recovery state or target bindings as a reset shortcut. No force-push or
-source database deletion is needed. Stop on a conflict and preserve the evidence.
+[MIT](LICENSE). See [third-party attribution](THIRD_PARTY.md) for the test framework.

@@ -1,0 +1,30 @@
+[proc4glsource]
+versshortremarks = "Converts float value to text - length depending on value"
+datatype = "varchar(20)"
+
+===
+
+/**
+ * The float2txt procedure converts a float value to text and returns it.
+ * The length of the returned text depends on the value - there are no trailing zeros.
+ *
+ *
+ * @author	Bodo Bergmann
+ *
+ * @param f	The float value to be converted
+ * @return	The text representing the float value (with decimal point - independent of II_DECIMAL)
+ *		The text is 'NULL' for a null float value.
+ *
+ */
+
+PROCEDURE float2txt(f = float)=
+declare
+    jn = JsonNumber;
+enddeclare
+{
+    if f IS NULL THEN
+      return 'NULL';
+    endif;
+    jn.SetValue(value=f);
+    RETURN jn.TextValue;
+}
