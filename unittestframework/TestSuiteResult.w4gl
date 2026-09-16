@@ -53,7 +53,7 @@ ENDDECLARE
 				e = result.skipped[i].error;
 				CurExec.Trace(text= e.testmethod + ' ' + e.errorexec + ' (line '+varchar(e.errorline)+'): ' +
 					HC_NEWLINE + HC_TAB + e.errortext);
-			ENDFOR;		
+			ENDFOR;
 		ENDIF;
 
 		IF result.errors.LastRow>0 OR result.failures.LastRow>0 THEN
@@ -75,23 +75,23 @@ ENDDECLARE
 				HC_NEWLINE + e.ClassName + HC_NEWLINE + HC_TAB + e.errortext);
 			ENDFOR;
 		ENDIF;
-		resultstr.ConcatVarchar(text = result.testclassName +': TestsRun=' + varchar(result.TestsRun) + 
+		resultstr.ConcatVarchar(text = result.testclassName +': TestsRun=' + varchar(result.TestsRun) +
 			', Time_in_ms=' + varchar(result.exec_time) +
 			', Failures=' + varchar(result.failures.LastRow) +
-			', Errors=' + varchar(result.errors.LastRow) + 
+			', Errors=' + varchar(result.errors.LastRow) +
 			', Skipped=' + varchar(result.skipped.LastRow) + HC_NEWLINE);
 
 		sum_cnt = sum_cnt + result.TestsRun;
 		sum_fail = sum_fail + result.failures.LastRow;
 		sum_err = sum_err + result.errors.LastRow;
 		sum_skip = sum_skip + result.skipped.LastRow;
-		
+
 	ENDFOR;
 	resultstr.ConcatVarchar(text = 'SUMMARY FOR TESTSUITE ' + CurObject.TestSuiteName + ': ' +
-			'TestsRun=' + varchar(sum_cnt) + 
+			'TestsRun=' + varchar(sum_cnt) +
 			', Time_in_ms=' + varchar(CurObject.exec_time) +
 			', Failures=' + varchar(sum_fail) +
-			', Errors=' + varchar(sum_err) + 
+			', Errors=' + varchar(sum_err) +
 			', Skipped=' + varchar(sum_skip) + HC_NEWLINE);
 	RETURN resultstr;
 }

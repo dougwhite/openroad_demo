@@ -29,15 +29,15 @@ ENDDECLARE
 	// Output test stats
 	IF G_Helper.TestStatsXmlDoc IS NULL THEN
 		resultstr = tsresult.AsString();
- 		CurExec.Trace(text='======================================================================');
+		CurExec.Trace(text='======================================================================');
 		CurExec.Trace(string=resultstr);
 		CurExec.Trace(text='======================================================================');
-		resultstr.AppendToFile(filename=G_Helper.TestStatsFile);		
+		resultstr.AppendToFile(filename=G_Helper.TestStatsFile);
 	ELSE // XML output
 		resultxml = tsresult.AsXml();
 		G_Helper.TestStatsXmlDoc.RootElement.AddChild(child = resultxml);
 		G_Helper.TestStatsXmlDoc.WriteToFile(filename = G_Helper.TestStatsFileXml, indent=TRUE, standalone=TRUE);
- 	ENDIF;
+	ENDIF;
 
 	// After running all tests make sure the frame and thus the application terminates.
 	G_Helper.CleanupTestRunner();

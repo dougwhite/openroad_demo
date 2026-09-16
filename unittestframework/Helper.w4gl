@@ -37,7 +37,7 @@ CleanupTestRunner = "METHOD"
  * @author	Bodo Bergmann
  *
  */
- 
+
 INITIALIZE=
 DECLARE
 	testdir = VARCHAR(256) NOT NULL;
@@ -327,7 +327,7 @@ BEGIN
 				ENDLOOP;
 			ENDIF;
 		ENDWHILE;
-		
+
 		CurObject.TestAppSource = pExec.ObjectSource.ParentApplication;
 	ENDIF;
 	RETURN CurObject.TestAppSource;
@@ -364,7 +364,7 @@ METHOD AddTestToRun(test = TestCase DEFAULT NULL)=
 	ENDIF;
 	IF CurObject.TestRunnerExec IS NULL THEN
 		CurObject.AppTestSuite = TestSuite.Create();
-		CurObject.AppTestSuite.Name = CurObject.GetTestAppSource().Name;		
+		CurObject.AppTestSuite.Name = CurObject.GetTestAppSource().Name;
 		CurObject.TestRunnerExec = OPENFRAME TestRunnerGhost WITH ParentFrame=NULL;
 	ENDIF;
 	// Add the test to the TestSuite - will be run by the TestRunnerGhost thread
