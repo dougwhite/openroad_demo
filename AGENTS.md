@@ -30,21 +30,34 @@ use a disposable source/runtime environment.
 
 ## Source ownership and safety
 
-- Track `.w4gl`, `.wml`, `app.json`, `gorak.json`, field-default JSON and exported
-  `.gorak-source/` XML companions. Companions preserve structures not represented
-  by readable source. Let Gorak maintain them; do not hand-edit their internals.
+- Track `.w4gl`, `.wml`, `app.json`, `gorak.json` and field-default JSON.
+  Supported source reconstructs without XML companions or an existing cache.
 - `.env` contains local connection settings and secrets. Never commit it or print
-  credentials. `.openroad/` is ignored: it contains target bindings, XML baselines,
-  operation journals, locks, recovery evidence and run/test artifacts.
-- Edit field defaults deliberately: inherited values can affect multiple frames.
-  Unknown XML/property shapes are rejected rather than guessed. Newly authored
-  frames still require a preserved frame baseline; do not invent companion XML.
+  credentials. `.openroad/` is ignored: it contains target bindings, XML transport
+  and baselines, operation journals, locks, recovery evidence and run artifacts.
+- Keep component declarations, field names and event scopes consistent. Root `field_defaults.json` is authoritative; application
+  defaults contain only differences, and frame `[fielddefaults]` contains only
+  differences from its application. WML omits values equal to inherited defaults; imports reconstruct them.
+  Preserve `gorak_style="N"` on ambiguous controls: it selects the 1-based style
+  of that field type in effective palette order. Explicit attributes override it;
+  property-only defaults edits must not renumber it. Ambiguous historical WML
+  requires a known selector or an authoritative re-export before pushing.
+  Query-designer metadata is unsupported and dropped. Existing compact source
+  needs no format migration. Unknown source shapes are rejected.
 - A conflict means disk and database changed relative to their common baseline.
   Stop, retain both versions, inspect the reported component and ask the owner
-  which change to reconcile. There is no ordinary force/overwrite workflow.
-- A refused or interrupted push may have partially updated the database. Retain
-  its artifacts. `gorak recover push` can verify and finish only when both sides
-  agree; it does not choose a winner or roll back database writes.
+  which change to reconcile. Normal sync does not choose a winning side automatically.
+- Source imports and compilation are separate. Compiler errors make push exit nonzero
+  without undoing completed source sync or requiring recovery; use
+  `gorak compile APP COMPONENT` for full database compiler diagnostics.
+- An interrupted push can normally be retried with `gorak sync --push`; Gorak
+  compares retained submissions with fresh exports before continuing. Preserve
+  its artifacts. Independent database edits remain conflicts.
+- For damaged tracking or deliberate conflict resolution, `gorak recover push
+  --take disk|database` chooses source authority for the entire tracked project.
+  `gorak sync --push --force` chooses disk without deleting database-only source.
+  Use these only when the owner's instruction establishes that authority. A plain
+  `gorak recover push` finishes only when disk and database already agree.
 - Never bypass a refusal by deleting locks, caches, pending markers, quarantine,
   baselines, generation metadata or target bindings. Never use direct SQL writes
   as a shortcut. Escalate unresolved recovery to the owner.
