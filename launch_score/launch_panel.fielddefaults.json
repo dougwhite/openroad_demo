@@ -1,0 +1,891 @@
+{
+    "groups": {
+        "barfield": {
+            "styles": {
+                "style1": {
+                    "bgcolor": "84",
+                    "fgcolor": "70",
+                    "outlinestyle": "4",
+                    "$before": {
+                        "outlinestyle": "fgpattern"
+                    }
+                }
+            }
+        },
+        "boxtrim": {
+            "styles": {
+                "style1": {
+                    "bgcolor": "70",
+                    "fgcolor": "72",
+                    "designbias": "4",
+                    "outlinestyle": "4",
+                    "$before": {
+                        "outlinestyle": "typeface"
+                    }
+                }
+            }
+        },
+        "buttonfield": {
+            "styles": {
+                "style1": {
+                    "fgcolor": "72",
+                    "requirerealfield": "1",
+                    "outlinestyle": "4",
+                    "$before": {
+                        "outlinestyle": "typeface",
+                        "requirerealfield": "bgpattern"
+                    }
+                }
+            }
+        },
+        "ellipseshape": {
+            "styles": {
+                "style1": {
+                    "bgcolor": "70",
+                    "fgcolor": "72"
+                }
+            }
+        },
+        "entryfield": {
+            "styles": {
+                "style1": {
+                    "bgcolor": "84",
+                    "fgcolor": "86",
+                    "designbias": "4",
+                    "outlinestyle": "4",
+                    "$before": {
+                        "outlinestyle": "typeface"
+                    }
+                }
+            }
+        },
+        "entryfield:2": {
+            "styles": {
+                "style1": {
+                    "bgcolor": "84",
+                    "fgcolor": "86",
+                    "designbias": "4",
+                    "outlinestyle": "4",
+                    "$before": {
+                        "outlinestyle": "typeface"
+                    }
+                }
+            }
+        },
+        "extobjfield": {
+            "styles": {
+                "style1": {
+                    "bgcolor": "70",
+                    "fgcolor": "72",
+                    "outlinestyle": "4"
+                }
+            }
+        },
+        "flexibleform": {
+            "styles": {
+                "style1": {
+                    "bgcolor": "70",
+                    "fgcolor": "72",
+                    "width": "615",
+                    "height": "438",
+                    "outlinestyle": "4",
+                    "childfields": {
+                        "row": {
+                            "row1": {
+                                "_type": "boxtrim",
+                                "datatype": "varchar(100)",
+                                "defaultvalue": "1",
+                                "bgcolor": "70",
+                                "fgcolor": "72",
+                                "width": "167",
+                                "requirerealfield": "1",
+                                "charsperline": "2",
+                                "stringvalue": "A",
+                                "xleft": null,
+                                "ytop": null,
+                                "$before": {
+                                    "requirerealfield": "bgpattern",
+                                    "defaultvalue": "bgcolor",
+                                    "datatype": "defaultvalue"
+                                }
+                            },
+                            "row2": {
+                                "datatype": "varchar(100)",
+                                "defaultvalue": "1",
+                                "bgcolor": "70",
+                                "fgcolor": "72",
+                                "xleft": "479",
+                                "ytop": "240",
+                                "outlinewidth": "1",
+                                "stringvalue": "B",
+                                "$before": {
+                                    "outlinewidth": "typeface",
+                                    "ytop": "width",
+                                    "xleft": "ytop",
+                                    "defaultvalue": "bgcolor",
+                                    "datatype": "defaultvalue"
+                                }
+                            }
+                        }
+                    },
+                    "gravity": null,
+                    "$before": {
+                        "outlinestyle": "outlinewidth"
+                    }
+                }
+            }
+        },
+        "freetrim": {
+            "styles": {
+                "style1": {
+                    "bgcolor": "70",
+                    "fgcolor": "72",
+                    "designbias": "4",
+                    "outlinestyle": "4",
+                    "$before": {
+                        "outlinestyle": "typeface"
+                    }
+                }
+            }
+        },
+        "imagefield": {
+            "styles": {
+                "style1": {
+                    "bgcolor": "70",
+                    "fgcolor": "72",
+                    "outlinestyle": "4",
+                    "$before": {
+                        "outlinestyle": "displaypolicy"
+                    }
+                }
+            }
+        },
+        "imagetrim": {
+            "styles": {
+                "style1": {
+                    "bgcolor": "70",
+                    "outlinestyle": "4",
+                    "$before": {
+                        "outlinestyle": "image"
+                    }
+                }
+            }
+        },
+        "listfield": {
+            "styles": {
+                "style1": {
+                    "bgcolor": "84",
+                    "fgcolor": "86",
+                    "outlinestyle": "4",
+                    "$before": {
+                        "outlinestyle": "valuelist"
+                    }
+                }
+            }
+        },
+        "listviewfield": {
+            "styles": {
+                "style1": {
+                    "bgcolor": "84",
+                    "fgcolor": "86",
+                    "outlinestyle": "4",
+                    "$before": {
+                        "outlinestyle": "valuelist"
+                    }
+                }
+            }
+        },
+        "matrixfield": {
+            "styles": {
+                "style1": {
+                    "bgcolor": "70",
+                    "fgcolor": "72",
+                    "width": "677",
+                    "height": "438",
+                    "outlinestyle": "4",
+                    "childfields": {
+                        "row": {
+                            "row1": {
+                                "datatype": "varchar(100)",
+                                "defaultvalue": "1",
+                                "bgcolor": "70",
+                                "fgcolor": "72",
+                                "xleft": "21",
+                                "ytop": "21",
+                                "outlinestyle": "4",
+                                "$before": {
+                                    "outlinestyle": "typeface",
+                                    "ytop": "width",
+                                    "defaultvalue": "bgcolor",
+                                    "datatype": "defaultvalue"
+                                }
+                            },
+                            "row2": {
+                                "datatype": "varchar(100)",
+                                "defaultvalue": "1",
+                                "bgcolor": "70",
+                                "fgcolor": "72",
+                                "xleft": "323",
+                                "ytop": "21",
+                                "width": "333",
+                                "outlinestyle": "4",
+                                "charsperline": "5",
+                                "stringvalue": "Three",
+                                "$before": {
+                                    "outlinestyle": "typeface",
+                                    "ytop": "width",
+                                    "defaultvalue": "bgcolor",
+                                    "datatype": "defaultvalue"
+                                }
+                            },
+                            "row3": {
+                                "datatype": "varchar(100)",
+                                "defaultvalue": "1",
+                                "bgcolor": "70",
+                                "fgcolor": "72",
+                                "xleft": "21",
+                                "ytop": "240",
+                                "width": "260",
+                                "outlinestyle": "4",
+                                "charsperline": "4",
+                                "stringvalue": "Two",
+                                "$before": {
+                                    "outlinestyle": "typeface",
+                                    "xleft": "ytop",
+                                    "defaultvalue": "bgcolor",
+                                    "datatype": "defaultvalue"
+                                }
+                            },
+                            "row4": {
+                                "datatype": "varchar(100)",
+                                "defaultvalue": "1",
+                                "bgcolor": "70",
+                                "fgcolor": "72",
+                                "xleft": "354",
+                                "ytop": "240",
+                                "outlinestyle": "4",
+                                "$before": {
+                                    "outlinestyle": "typeface",
+                                    "defaultvalue": "bgcolor",
+                                    "datatype": "defaultvalue"
+                                }
+                            }
+                        }
+                    },
+                    "childbottommargin": "20",
+                    "childleftmargin": "20",
+                    "childrightmargin": "20",
+                    "childtopmargin": "20",
+                    "gravity": null,
+                    "$before": {
+                        "childtopmargin": "separatorwidth",
+                        "childrightmargin": "childtopmargin",
+                        "childleftmargin": "childrightmargin",
+                        "childbottommargin": "childleftmargin",
+                        "outlinestyle": "outlinewidth"
+                    }
+                },
+                "style2": {
+                    "bgcolor": "70",
+                    "fgcolor": "72",
+                    "ytop": "646",
+                    "width": "687",
+                    "height": "448",
+                    "outlinestyle": "4",
+                    "outlinewidth": "0",
+                    "childfields": {
+                        "row": {
+                            "row1": {
+                                "datatype": "varchar(100)",
+                                "defaultvalue": "1",
+                                "bgcolor": "70",
+                                "fgcolor": "72",
+                                "xleft": "21",
+                                "ytop": "21",
+                                "outlinestyle": "4",
+                                "$before": {
+                                    "outlinestyle": "typeface",
+                                    "ytop": "width",
+                                    "defaultvalue": "bgcolor",
+                                    "datatype": "defaultvalue"
+                                }
+                            },
+                            "row2": {
+                                "datatype": "varchar(100)",
+                                "defaultvalue": "1",
+                                "bgcolor": "70",
+                                "fgcolor": "72",
+                                "xleft": "333",
+                                "ytop": "21",
+                                "width": "333",
+                                "outlinestyle": "4",
+                                "charsperline": "5",
+                                "stringvalue": "Three",
+                                "$before": {
+                                    "outlinestyle": "typeface",
+                                    "ytop": "width",
+                                    "defaultvalue": "bgcolor",
+                                    "datatype": "defaultvalue"
+                                }
+                            },
+                            "row3": {
+                                "datatype": "varchar(100)",
+                                "defaultvalue": "1",
+                                "bgcolor": "70",
+                                "fgcolor": "72",
+                                "xleft": "21",
+                                "ytop": "250",
+                                "width": "260",
+                                "outlinestyle": "4",
+                                "charsperline": "4",
+                                "stringvalue": "Two",
+                                "$before": {
+                                    "outlinestyle": "typeface",
+                                    "xleft": "ytop",
+                                    "defaultvalue": "bgcolor",
+                                    "datatype": "defaultvalue"
+                                }
+                            },
+                            "row4": {
+                                "datatype": "varchar(100)",
+                                "defaultvalue": "1",
+                                "bgcolor": "70",
+                                "fgcolor": "72",
+                                "xleft": "365",
+                                "ytop": "250",
+                                "outlinestyle": "4",
+                                "$before": {
+                                    "outlinestyle": "typeface",
+                                    "defaultvalue": "bgcolor",
+                                    "datatype": "defaultvalue"
+                                }
+                            }
+                        }
+                    },
+                    "childbottommargin": "20",
+                    "childleftmargin": "20",
+                    "childrightmargin": "20",
+                    "childtopmargin": "20",
+                    "separatorstyle": "3",
+                    "separatorwidth": "1",
+                    "gravity": null,
+                    "$before": {
+                        "outlinewidth": "childfields",
+                        "outlinestyle": "outlinewidth"
+                    }
+                }
+            }
+        },
+        "optionfield": {
+            "styles": {
+                "style1": {
+                    "bgcolor": "84",
+                    "fgcolor": "86",
+                    "outlinestyle": "4",
+                    "$before": {
+                        "outlinestyle": "valuelist"
+                    }
+                }
+            }
+        },
+        "palettefield": {
+            "styles": {
+                "style1": {
+                    "fgcolor": "72",
+                    "width": "500",
+                    "height": "750",
+                    "outlinestyle": "4",
+                    "$before": {
+                        "outlinestyle": "valuelist"
+                    }
+                }
+            }
+        },
+        "popupbutton": {
+            "styles": {
+                "style1": {
+                    "fgcolor": "72",
+                    "outlinestyle": "4",
+                    "$before": {
+                        "outlinestyle": "outlinewidth"
+                    }
+                }
+            }
+        },
+        "radiofield": {
+            "styles": {
+                "style1": {
+                    "bgcolor": "70",
+                    "fgcolor": "72",
+                    "outlinestyle": "4",
+                    "$before": {
+                        "outlinestyle": "valuelist"
+                    }
+                }
+            }
+        },
+        "rectangleshape": {
+            "styles": {
+                "style1": {
+                    "bgcolor": "70",
+                    "fgcolor": "72"
+                }
+            }
+        },
+        "scrollbarfield": {
+            "styles": {
+                "style1": {
+                    "fgcolor": "72",
+                    "outlinestyle": "4",
+                    "$before": {
+                        "outlinestyle": "elevatorsize"
+                    }
+                }
+            }
+        },
+        "segmentshape": {
+            "styles": {
+                "style1": {
+                    "fgcolor": "72"
+                }
+            }
+        },
+        "sliderfield": {
+            "styles": {
+                "style1": {
+                    "bgcolor": "70",
+                    "fgcolor": "72",
+                    "outlinestyle": "4",
+                    "$before": {
+                        "outlinestyle": "outlinewidth"
+                    }
+                }
+            }
+        },
+        "stackfield": {
+            "styles": {
+                "style1": {
+                    "bgcolor": "70",
+                    "fgcolor": "72",
+                    "xleft": "281",
+                    "childfields": {
+                        "row": {
+                            "row1": {
+                                "datatype": "varchar(100)",
+                                "defaultvalue": "1",
+                                "bgcolor": "70",
+                                "fgcolor": "72",
+                                "outlinestyle": "4",
+                                "$before": {
+                                    "outlinestyle": "typeface",
+                                    "defaultvalue": "bgcolor",
+                                    "datatype": "defaultvalue"
+                                }
+                            },
+                            "row2": {
+                                "datatype": "varchar(100)",
+                                "defaultvalue": "1",
+                                "bgcolor": "70",
+                                "fgcolor": "72",
+                                "outlinestyle": "4",
+                                "$before": {
+                                    "outlinestyle": "typeface",
+                                    "defaultvalue": "bgcolor",
+                                    "datatype": "defaultvalue"
+                                }
+                            },
+                            "row3": {
+                                "datatype": "varchar(100)",
+                                "defaultvalue": "1",
+                                "bgcolor": "70",
+                                "fgcolor": "72",
+                                "outlinestyle": "4",
+                                "$before": {
+                                    "outlinestyle": "typeface",
+                                    "defaultvalue": "bgcolor",
+                                    "datatype": "defaultvalue"
+                                }
+                            }
+                        }
+                    },
+                    "separatorcolor": "72",
+                    "gravity": null,
+                    "$before": {
+                        "separatorcolor": "separatorstyle"
+                    }
+                },
+                "style2": {
+                    "bgcolor": "70",
+                    "fgcolor": "72",
+                    "outlinecolor": "72",
+                    "outlinewidth": "1",
+                    "childfields": {
+                        "row": {
+                            "row1": {
+                                "datatype": "varchar(100)",
+                                "defaultvalue": "1",
+                                "bgcolor": "70",
+                                "fgcolor": "72",
+                                "outlinestyle": "4",
+                                "$before": {
+                                    "outlinestyle": "typeface",
+                                    "defaultvalue": "bgcolor",
+                                    "datatype": "defaultvalue"
+                                }
+                            },
+                            "row2": {
+                                "datatype": "varchar(100)",
+                                "defaultvalue": "1",
+                                "bgcolor": "70",
+                                "fgcolor": "72",
+                                "outlinestyle": "4",
+                                "$before": {
+                                    "outlinestyle": "typeface",
+                                    "defaultvalue": "bgcolor",
+                                    "datatype": "defaultvalue"
+                                }
+                            },
+                            "row3": {
+                                "datatype": "varchar(100)",
+                                "defaultvalue": "1",
+                                "bgcolor": "70",
+                                "fgcolor": "72",
+                                "outlinestyle": "4",
+                                "$before": {
+                                    "outlinestyle": "typeface",
+                                    "defaultvalue": "bgcolor",
+                                    "datatype": "defaultvalue"
+                                }
+                            }
+                        }
+                    },
+                    "separatorcolor": "72",
+                    "gravity": null,
+                    "separatorwidth": null,
+                    "$before": {
+                        "separatorcolor": "separatorstyle",
+                        "outlinewidth": "childfields"
+                    }
+                }
+            }
+        },
+        "subform": {
+            "styles": {
+                "style1": {
+                    "bgcolor": "70",
+                    "fgcolor": "72",
+                    "outlinecolor": "87",
+                    "outlinestyle": "4",
+                    "$before": {
+                        "outlinestyle": "outlinewidth"
+                    }
+                }
+            }
+        },
+        "tabfolder": {
+            "styles": {
+                "style1": {
+                    "bgcolor": "70",
+                    "fgcolor": "72",
+                    "outlinestyle": "4",
+                    "tabbar": {
+                        "bgcolor": "70",
+                        "normaltabcolor": "70",
+                        "normaltextcolor": "72",
+                        "selectedtabcolor": "70",
+                        "selectedtextcolor": "72",
+                        "tabbgcolor": "70",
+                        "tabfieldarray": {
+                            "row": {
+                                "row1": {
+                                    "bgcolor": "70",
+                                    "fgcolor": "72",
+                                    "xleft": null
+                                },
+                                "row2": {
+                                    "bgcolor": "70",
+                                    "fgcolor": "72",
+                                    "xleft": "417",
+                                    "fieldstyle": "0",
+                                    "textlabel": "Page 2",
+                                    "$before": {
+                                        "fieldstyle": "bgpattern"
+                                    }
+                                },
+                                "row3": null
+                            }
+                        },
+                        "$before": {
+                            "tabbgcolor": "tabfieldarray",
+                            "selectedtextcolor": "tabbgcolor",
+                            "selectedtabcolor": "selectedtextcolor",
+                            "normaltextcolor": "selectedtabcolor",
+                            "normaltabcolor": "normaltextcolor"
+                        }
+                    },
+                    "tabpagearray": {
+                        "row": {
+                            "row1": {
+                                "bgcolor": "70",
+                                "fgcolor": "72",
+                                "fieldstyle": "0",
+                                "outlinecolor": "87",
+                                "$before": {
+                                    "fieldstyle": "bgpattern"
+                                }
+                            },
+                            "row2": {
+                                "bgcolor": "70",
+                                "fgcolor": "72",
+                                "fieldstyle": "0",
+                                "outlinecolor": "87",
+                                "outlinewidth": "0",
+                                "$before": {
+                                    "outlinewidth": "isresizebounded",
+                                    "fieldstyle": "bgpattern"
+                                }
+                            },
+                            "row3": null
+                        }
+                    },
+                    "$before": {
+                        "outlinestyle": "isresizebounded"
+                    }
+                }
+            }
+        },
+        "tablefield": {
+            "styles": {
+                "style1": {
+                    "script": "/*----------------------------------------------*/\n/* tablefield initialize */\n\ninitialize =\ndeclare\n#   include _tfInitDecl\nenddeclare\n{\n#   include _tfInit\n}",
+                    "bgcolor": "70",
+                    "xleft": "292",
+                    "width": "823",
+                    "height": "885",
+                    "outlinestyle": "4",
+                    "colseparatorwidth": "0",
+                    "rowseparatorwidth": "0",
+                    "hasheaderbuttons": "1",
+                    "tablebody": {
+                        "bgcolor": "70",
+                        "ytop": "177",
+                        "width": "667",
+                        "height": "708",
+                        "outlinewidth": "0",
+                        "childfields": {
+                            "row": {
+                                "row1": {
+                                    "name": "ef1",
+                                    "width": "667",
+                                    "height": "708",
+                                    "separatorwidth": "0",
+                                    "protofield": {
+                                        "name": "ef1",
+                                        "width": "667",
+                                        "designbias": "4",
+                                        "charsperline": "10",
+                                        "fieldstyle": null
+                                    },
+                                    "$before": {
+                                        "separatorwidth": "protofield"
+                                    }
+                                }
+                            }
+                        },
+                        "separatorwidth": "0"
+                    },
+                    "tableheader": {
+                        "bgcolor": "70",
+                        "fgcolor": "1",
+                        "width": "667",
+                        "updatebias": "16",
+                        "outlinecolor": "1",
+                        "outlinewidth": "0",
+                        "childfields": {
+                            "row": {
+                                "row1": {
+                                    "_type": "buttonfield",
+                                    "name": "ef1_hdr",
+                                    "datatype": "integer",
+                                    "bgcolor": "70",
+                                    "width": "625",
+                                    "height": "135",
+                                    "designbias": "4",
+                                    "trimbias": "256",
+                                    "updatebias": "16",
+                                    "querybias": "16",
+                                    "readbias": "32",
+                                    "user1bias": "16",
+                                    "user2bias": "16",
+                                    "user3bias": "16",
+                                    "requirerealfield": "1",
+                                    "focusbehavior": "2",
+                                    "outlinecolor": "1",
+                                    "outlinestyle": "4",
+                                    "textlabel": "Ef1",
+                                    "textalignment": "1",
+                                    "buttonstyle": "3",
+                                    "xleft": null,
+                                    "outlinewidth": null,
+                                    "ismultiline": null,
+                                    "charsperline": null,
+                                    "lines": null,
+                                    "stringvalue": null,
+                                    "$before": {
+                                        "outlinestyle": "typeface",
+                                        "requirerealfield": "fieldstyle",
+                                        "datatype": "bgcolor",
+                                        "name": "datatype"
+                                    }
+                                }
+                            }
+                        },
+                        "separatorwidth": "0",
+                        "ytop": null,
+                        "separatorcolor": null
+                    },
+                    "controlbutton": null,
+                    "titletrim": null,
+                    "$before": {
+                        "hasheaderbuttons": "numvisiblerows",
+                        "rowseparatorwidth": "columnsdisplayed",
+                        "colseparatorwidth": "rowseparatorwidth",
+                        "outlinestyle": "colseparatorwidth"
+                    }
+                },
+                "style2": {
+                    "script": "/*----------------------------------------------*/\n/* tablefield initialize */\n\ninitialize =\ndeclare\n#   include _tfInitDecl\nenddeclare\n{\n#   include _tfInit\n}",
+                    "bgcolor": "70",
+                    "ytop": "1094",
+                    "width": "906",
+                    "height": "1135",
+                    "outlinewidth": "0",
+                    "rowseparatorcolor": "86",
+                    "controlbutton": {
+                        "name": "field15_controlbutton",
+                        "bgcolor": "70",
+                        "xleft": "740",
+                        "readbias": "32",
+                        "fieldstyle": "0",
+                        "optionmenu": {
+                            "childmenufields": {
+                                "row": {
+                                    "row1": {
+                                        "script": "/*----------------------------------------------*/\n/* tablefield controlbutton menuitem Insert Before Current Row */\n\non click =\n{\n#   include _tfcbInsClick\n}"
+                                    },
+                                    "row2": {
+                                        "script": "/*----------------------------------------------*/\n/* tablefield controlbutton menuitem Delete Current Row */\n\non click =\n{\n#   include _tfcbDelClick\n}"
+                                    },
+                                    "row3": {
+                                        "script": "/*----------------------------------------------*/\n/* tablefield controlbutton menuitem Delete All Rows */\n\non click =\n{\n#   include _tfcbDelAllClick\n}"
+                                    },
+                                    "row4": {
+                                        "script": "/*----------------------------------------------*/\n/* tablefield controlbutton menuitem Copy Table */\n\ninitialize =\n{\n#   include _tfcbCopyTableInit\n}\n\non click =\n{\n#   include _tfcbCopyTableClick\n}"
+                                    }
+                                }
+                            }
+                        },
+                        "$before": {
+                            "fieldstyle": "bgpattern"
+                        }
+                    },
+                    "tablebody": {
+                        "bgcolor": "70",
+                        "width": "729",
+                        "height": "740",
+                        "childfields": {
+                            "row": {
+                                "row1": {
+                                    "name": "ef1",
+                                    "bgcolor": "84",
+                                    "fgcolor": "86",
+                                    "width": "729",
+                                    "height": "740",
+                                    "separatorcolor": "86",
+                                    "protofield": {
+                                        "name": "ef1",
+                                        "bgcolor": "84",
+                                        "fgcolor": "86",
+                                        "width": "729",
+                                        "designbias": "4",
+                                        "charsperline": "11"
+                                    },
+                                    "separatorwidth": null,
+                                    "$before": {
+                                        "separatorcolor": "protofield"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "tableheader": {
+                        "bgcolor": "70",
+                        "fgcolor": "72",
+                        "width": "729",
+                        "updatebias": "16",
+                        "outlinecolor": "1",
+                        "childfields": {
+                            "row": {
+                                "row1": {
+                                    "bgcolor": "70",
+                                    "fgcolor": "72",
+                                    "xleft": "260",
+                                    "width": "208",
+                                    "designbias": "4",
+                                    "outlinecolor": "1",
+                                    "charsperline": "3",
+                                    "stringvalue": "Ef1"
+                                }
+                            }
+                        },
+                        "separatorcolor": "72"
+                    },
+                    "titletrim": {
+                        "bgcolor": "70",
+                        "fgcolor": "72",
+                        "xleft": "83",
+                        "designbias": "4",
+                        "fieldstyle": "0",
+                        "$before": {
+                            "fieldstyle": "bgpattern"
+                        }
+                    },
+                    "rowseparatorwidth": null,
+                    "$before": {
+                        "rowseparatorcolor": "columnsdisplayed",
+                        "outlinewidth": "colseparatorwidth"
+                    }
+                }
+            }
+        },
+        "togglefield": {
+            "styles": {
+                "style1": {
+                    "bgcolor": "70",
+                    "fgcolor": "72",
+                    "outlinestyle": "4",
+                    "$before": {
+                        "outlinestyle": "typeface"
+                    }
+                }
+            }
+        },
+        "viewportfield": {
+            "styles": {
+                "style1": {
+                    "bgcolor": "84",
+                    "fgcolor": "72",
+                    "outlinecolor": "87",
+                    "outlinestyle": "4",
+                    "viewfield": {
+                        "xleft": "21",
+                        "ytop": "21"
+                    },
+                    "$before": {
+                        "outlinestyle": "viewfield"
+                    }
+                }
+            }
+        }
+    }
+}
