@@ -1,0 +1,41 @@
+name: Validate source
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: source-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Python 3.12 / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, windows-2022]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check out tested Gorak revision
+        uses: actions/checkout@v4
+        with:
+          repository: dougwhite/gorak
+          ref: a0e2b2254b101d467533918c3ac559bfacb37fb3
+          path: .ci/gorak
+      - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          python-version: "3.12"
+          enable-cache: true
+          cache-dependency-glob: .ci/gorak/uv.lock
+      - name: Install locked Gorak dependencies
+        run: uv sync --locked --project .ci/gorak
+      - name: Reconstruct and round-trip demo source
+        run: uv run --locked --project .ci/gorak python scripts/validate_source.py
