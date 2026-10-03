@@ -14,11 +14,11 @@ ENDDECLARE
     actual = CALLPROC p4_score(capsules = 0);
     G_Assert.AssertEquals(expectedInteger = 0, actualInteger = actual);
     actual = CALLPROC p4_score(capsules = 1);
-    G_Assert.AssertEquals(expectedInteger = 12, actualInteger = actual);
+    G_Assert.AssertEquals(expectedInteger = 10, actualInteger = actual);
     actual = CALLPROC p4_score(capsules = 4);
-    G_Assert.AssertEquals(expectedInteger = 48, actualInteger = actual);
+    G_Assert.AssertEquals(expectedInteger = 40, actualInteger = actual);
     actual = CALLPROC p4_score(capsules = 5);
-    G_Assert.AssertEquals(expectedInteger = 80, actualInteger = actual);
+    G_Assert.AssertEquals(expectedInteger = 50, actualInteger = actual);
     actual = CALLPROC p4_score(capsules = 6);
-    G_Assert.AssertEquals(expectedInteger = 92, actualInteger = actual);
+    G_Assert.AssertEquals(expectedInteger = 60, actualInteger = actual);
 }

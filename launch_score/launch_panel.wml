@@ -113,7 +113,7 @@
       ismultiline="1"
       charsperline="17"
       lines="1"
-      stringvalue="12 points per capsule"
+      stringvalue="10 points per capsule"
     />
     <freetrim
       datatype="varchar(100)"
@@ -122,8 +122,8 @@
       fgcolor="72"
       xleft="115"
       ytop="854"
-      width="490"
-      height="177"
+      width="635"
+      height="208"
       designbias="2"
       trimbias="16"
       updatebias="256"
@@ -141,7 +141,7 @@
       typeface="0"
       typesize="8"
       ismultiline="1"
-      charsperline="7"
+      charsperline="8"
       lines="1"
       stringvalue="Capsules"
     />
@@ -182,7 +182,7 @@
       fgcolor="72"
       xleft="125"
       ytop="1396"
-      width="2000"
+      width="1323"
       height="260"
       designbias="3"
       trimbias="256"
@@ -200,7 +200,7 @@
       outlinestyle="4"
       typeface="0"
       typesize="8"
-      textlabel="Calculate launch score"
+      textlabel="Calculate score"
     />
     <freetrim
       datatype="varchar(100)"
@@ -209,8 +209,8 @@
       fgcolor="72"
       xleft="146"
       ytop="2083"
-      width="333"
-      height="177"
+      width="417"
+      height="208"
       designbias="2"
       trimbias="16"
       updatebias="256"
