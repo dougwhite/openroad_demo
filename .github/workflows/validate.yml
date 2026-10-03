@@ -24,18 +24,27 @@ jobs:
         os: [ubuntu-22.04, windows-2022]
     steps:
       - uses: actions/checkout@v4
-      - name: Check out tested Gorak revision
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Read gorak release pin
+        id: ecosystem
+        run: python scripts/check_ecosystem.py --github-output "$GITHUB_OUTPUT"
+        shell: bash
+      - name: Check out tested gorak release
         uses: actions/checkout@v4
         with:
           repository: dougwhite/gorak
-          ref: a0e2b2254b101d467533918c3ac559bfacb37fb3
+          ref: ${{ steps.ecosystem.outputs.gorak_revision }}
           path: .ci/gorak
+      - name: Verify gorak release and source contract
+        run: python scripts/check_ecosystem.py --checkout .ci/gorak
       - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
         with:
           python-version: "3.12"
           enable-cache: true
           cache-dependency-glob: .ci/gorak/uv.lock
-      - name: Install locked Gorak dependencies
+      - name: Install locked gorak dependencies
         run: uv sync --locked --project .ci/gorak
       - name: Reconstruct and round-trip demo source
         run: uv run --locked --project .ci/gorak python scripts/validate_source.py
