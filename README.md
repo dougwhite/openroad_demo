@@ -1,15 +1,15 @@
-# Launch Score — Gorak demo
+# Launch Score — gorak demo
 
-A small OpenROAD application for following the Gorak demo: start with 10 points
+A small OpenROAD application for following the gorak demo: start with 10 points
 per capsule, make a change in Workbench, then ask Codex to add a fleet bonus.
 
-**[Gorak](https://github.com/dougwhite/gorak)** ·
+**[gorak](https://github.com/dougwhite/gorak)** ·
 **[Watch the demo](https://www.youtube.com/watch?v=zlncaV1mLqM)** ·
 **[Project and updates](https://thingsdougmakes.au/projects/gorak/)**
 
 ## Get started
 
-Install Gorak using its [getting started guide](https://github.com/dougwhite/gorak/blob/master/docs/getting-started.md)
+Install gorak using its [getting started guide](https://github.com/dougwhite/gorak/blob/master/docs/getting-started.md)
 and create a fresh, blank OpenROAD source database for the demo.
 
 [Fork this repository](https://github.com/dougwhite/openroad_demo/fork) into your
@@ -39,7 +39,7 @@ gorak run launch_score --component launch_panel
 
 Enter 1 or 5 capsules and click **Calculate score**: expect 10 or 50 points.
 The [OpenROAD UnitTestFramework](https://github.com/ActianCorp/OpenROAD_UnitTestFramework)
-is bundled as portable Gorak source. The initial `gorak sync --push` imports it
+is bundled as portable gorak source. The initial `gorak sync --push` imports it
 before `launch_score`.
 
 ## Follow the video
@@ -79,20 +79,20 @@ Open this repository in Codex and give it this prompt:
 > 0, 1, 4, 5 and 6 capsules, with expected scores of 0, 12, 48, 80 and 92.
 > Change the Calculate score button to Calculate launch score and widen it to fit.
 > Follow AGENTS.md: create a feature branch, make the changes, push them through
-> Gorak and run the tests. Inspect the diff, commit, push the branch and create a
+> gorak and run the tests. Inspect the diff, commit, push the branch and create a
 > pull request against main in my fork for review. Do not merge it.
 
 Run the frame again: **5 capsules → 80 points**.
 
 ## Automated source validation
 
-GitHub Actions validates both applications on Windows and Linux against Gorak
+GitHub Actions validates both applications on Windows and Linux against gorak
 revision `a0e2b2254b101d467533918c3ac559bfacb37fb3`, pinned in
 `.github/workflows/validate.yml`. It reconstructs native XML without cached source,
 checks application metadata and readable source, and verifies native round trips.
-Update the pin through a PR to test a newer Gorak revision.
+Update the pin through a PR to test a newer gorak revision.
 
-To run locally from this folder with a Gorak checkout:
+To run locally from this folder with a gorak checkout:
 
 ```sh
 uv run --locked --project /path/to/gorak python scripts/validate_source.py
