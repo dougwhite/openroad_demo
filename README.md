@@ -84,6 +84,23 @@ Open this repository in Codex and give it this prompt:
 
 Run the frame again: **5 capsules → 80 points**.
 
+## Automated source validation
+
+GitHub Actions validates both applications on Windows and Linux against Gorak
+revision `a0e2b2254b101d467533918c3ac559bfacb37fb3`, pinned in
+`.github/workflows/validate.yml`. It reconstructs native XML without cached source,
+checks application metadata and readable source, and verifies native round trips.
+Update the pin through a PR to test a newer Gorak revision.
+
+To run locally from this folder with a Gorak checkout:
+
+```sh
+uv run --locked --project /path/to/gorak python scripts/validate_source.py
+```
+
+This checks source compatibility, not OpenROAD compilation or runtime behaviour.
+Use `gorak sync --push && gorak test` in a disposable source database for those checks.
+
 ## License
 
 [MIT](LICENSE). See [third-party attribution](THIRD_PARTY.md) for the test framework.
