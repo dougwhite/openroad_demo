@@ -86,9 +86,9 @@ Run the frame again: **5 capsules → 80 points**.
 
 ## Automated source validation
 
-GitHub Actions validates both applications on Windows and Linux against gorak
-revision `a0e2b2254b101d467533918c3ac559bfacb37fb3`, pinned in
-`.github/workflows/validate.yml`. It reconstructs native XML without cached source,
+GitHub Actions validates both applications on Windows and Linux against the gorak
+release and source contract pinned in `ecosystem.toml`. It reconstructs native
+XML without cached source,
 checks application metadata and readable source, and verifies native round trips.
 Update the pin through a PR to test a newer gorak revision.
 
