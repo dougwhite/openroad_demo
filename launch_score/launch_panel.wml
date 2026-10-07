@@ -57,7 +57,6 @@
     />
     <freetrim
       datatype="varchar(100)"
-      defaultvalue="1"
       bgcolor="70"
       fgcolor="72"
       xleft="94"
@@ -87,7 +86,6 @@
     />
     <freetrim
       datatype="varchar(100)"
-      defaultvalue="1"
       bgcolor="70"
       fgcolor="72"
       xleft="94"
@@ -117,7 +115,6 @@
     />
     <freetrim
       datatype="varchar(100)"
-      defaultvalue="1"
       bgcolor="70"
       fgcolor="72"
       xleft="115"
@@ -177,7 +174,6 @@
     <buttonfield
       name="calculate_score"
       datatype="i4"
-      defaultvalue="1"
       bgcolor="70"
       fgcolor="72"
       xleft="125"
@@ -204,7 +200,6 @@
     />
     <freetrim
       datatype="varchar(100)"
-      defaultvalue="1"
       bgcolor="70"
       fgcolor="72"
       xleft="146"
@@ -264,7 +259,6 @@
     />
     <freetrim
       datatype="varchar(100)"
-      defaultvalue="1"
       bgcolor="70"
       fgcolor="72"
       xleft="115"
