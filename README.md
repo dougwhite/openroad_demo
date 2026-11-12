@@ -26,7 +26,7 @@ Edit `.env` to point at your demo database, then import the application and run
 its tests:
 
 ```bat
-gorak sync --push
+gorak push
 gorak test
 ```
 
@@ -39,7 +39,7 @@ gorak run launch_score --component launch_panel
 
 Enter 1 or 5 capsules and click **Calculate score**: expect 10 or 50 points.
 The [OpenROAD UnitTestFramework](https://github.com/ActianCorp/OpenROAD_UnitTestFramework)
-is bundled as portable gorak source. The initial `gorak sync --push` imports it
+is bundled as portable gorak source. The initial `gorak push` imports it
 before `launch_score`.
 
 ## Follow the video
@@ -55,7 +55,7 @@ Pull those changes to disk and inspect the Git diff:
 
 ```bat
 gorak status
-gorak sync
+gorak pull
 gorak test
 git diff
 ```
@@ -99,7 +99,7 @@ uv run --locked --project /path/to/gorak python scripts/validate_source.py
 ```
 
 This checks source compatibility, not OpenROAD compilation or runtime behaviour.
-Use `gorak sync --push && gorak test` in a disposable source database for those checks.
+Use `gorak push && gorak test` in a disposable source database for those checks.
 
 ## License
 

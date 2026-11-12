@@ -4,9 +4,9 @@ Always spell `gorak` in lowercase, including at the start of sentences and in he
 
 Follow the user's instructions for the requested change.
 
-1. Check `git status` and run `gorak sync` before editing.
+1. Check `git status` and run `gorak pull` before editing.
 2. Make the source and test changes. Close Workbench editors before importing.
-3. Run `gorak sync --push && gorak test`; tests execute database source.
+3. Run `gorak push && gorak test`; tests execute database source.
 4. Inspect `git diff` and report the changes and test results.
 
 Keep `.env` and `.openroad/` out of Git. Preserve existing work and report any
